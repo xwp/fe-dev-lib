@@ -26,7 +26,6 @@ var _defaultsDeep3 = _interopRequireDefault(_defaultsDeep2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var json = JSON.parse(_fs2.default.readFileSync('./package.json')),
-    env = _yargs2.default.argv.env,
     workflow = _yargs2.default.argv.workflow,
     browserslist = json.browserslist;
 
@@ -35,7 +34,8 @@ var tasks = [],
     schema = '',
     isTest = false,
     isProd = false,
-    isDev = false;
+    isDev = false,
+    env = _yargs2.default.argv.env;
 
 switch (env) {
 	case 'test':
@@ -47,6 +47,7 @@ switch (env) {
 		break;
 	default:
 		exports.isDev = isDev = true;
+		exports.env = env = 'dev';
 }
 
 if (undefined !== workflow && undefined !== json.workflows[workflow]) {

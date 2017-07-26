@@ -5,7 +5,6 @@ import gutil from 'gulp-util';
 import _defaultsDeep from 'lodash/defaultsDeep';
 
 const json = JSON.parse( fs.readFileSync( './package.json' ) ),
-	env = yargs.argv.env,
 	workflow = yargs.argv.workflow,
 	browserslist = json.browserslist;
 
@@ -14,7 +13,8 @@ let tasks = [],
 	schema = '',
 	isTest = false,
 	isProd = false,
-	isDev  = false;
+	isDev  = false,
+	env = yargs.argv.env;
 
 switch ( env ) {
 case 'test':
@@ -26,6 +26,7 @@ case 'production':
 	break;
 default:
 	isDev = true;
+	env = 'dev';
 }
 
 if ( undefined !== workflow && undefined !== json.workflows[ workflow ] ) {
