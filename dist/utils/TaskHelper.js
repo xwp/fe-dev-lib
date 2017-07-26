@@ -97,22 +97,10 @@ var TaskHelper = function () {
 	}, {
 		key: 'src',
 		get: function get() {
-			var srcList = Array.isArray(this.config.src) ? this.config.src : [this.config.src],
-			    src = srcList.map(function (path) {
+			var srcList = Array.isArray(this.config.src) ? this.config.src : [this.config.src];
+			return srcList.map(function (path) {
 				return (0, _path.join)(_getConfig.cwd, path);
 			});
-
-			return src;
-		}
-	}, {
-		key: 'entries',
-		get: function get() {
-			var entriesList = Array.isArray(this.config.entries) ? this.config.entries : [this.config.entries],
-			    entries = entriesList.map(function (path) {
-				return (0, _path.join)(_getConfig.cwd, path);
-			});
-
-			return entries;
 		}
 	}, {
 		key: 'base',

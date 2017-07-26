@@ -5,11 +5,11 @@ import eslint from 'gulp-eslint';
 import gulpIf from 'gulp-if';
 import TaskHelper from '../utils/TaskHelper';
 
-const task = new TaskHelper( {
+const task = new TaskHelper({
 	name: 'js-lint',
-	requiredPaths: ['src'],
+	requiredPaths: [ 'src' ],
 	config: tasks
-} );
+});
 
 if ( undefined !== task.config ) {
 	gulp.task( task.name, () => {

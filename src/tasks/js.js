@@ -9,7 +9,8 @@ import plumber from 'gulp-plumber';
 
 if ( undefined !== tasks.js ) {
 	let fn = function() {
-		let babelifyOptions, webpackConfig, esLintOptions = {};
+		let esLintOptions = {},
+			babelifyOptions, webpackConfig;
 		const paths = tasks.js;
 
 		babelifyOptions = {
@@ -36,9 +37,9 @@ if ( undefined !== tasks.js ) {
 			entry: paths.entry,
 			output: {
 				filename: '[name].js',
-				pathinfo: isDev,
+				pathinfo: isDev
 			},
-			devtool: isProd ? 'source-map': 'eval',
+			devtool: isProd ? 'source-map' : 'eval',
 			module: {
 				rules: [
 					esLintOptions
@@ -49,15 +50,15 @@ if ( undefined !== tasks.js ) {
 						loader: 'babel-loader',
 						options: babelifyOptions,
 						exclude: /node_modules/
-					},
-				],
+					}
+				]
 			},
 			plugins: removeEmpty([
 				new ProgressBarPlugin(),
 				isProd ? new webpack.optimize.UglifyJsPlugin() : undefined
 			]),
 			watch: true,
-			cache: true,
+			cache: true
 		};
 
 		return gulp.src( resolve( cwd, paths.base ) )

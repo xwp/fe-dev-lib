@@ -18,6 +18,6 @@ if ( undefined !== tasks.watch && undefined !== tasks.watch.tasks ) {
 			}
 
 			watch( join( cwd, task.src ), () => gulp.start( taskSlug ) );
-		} );
-	} );
+		});
+	});
 }

@@ -8,12 +8,12 @@ import scss from 'postcss-scss';
 import stylelint from 'stylelint';
 import TaskHelper from '../utils/TaskHelper';
 
-const task = new TaskHelper( {
+const task = new TaskHelper({
 	name: 'css-lint',
-	requiredPaths: ['src'],
+	requiredPaths: [ 'src' ],
 	config: tasks,
 	configSlug: 'css'
-} );
+});
 
 if ( undefined !== task.config ) {
 	gulp.task( task.name, () => {
@@ -23,9 +23,9 @@ if ( undefined !== task.config ) {
 
 		return task.start()
 			.pipe( gulpIf( isDev, cache( task.cacheName ) ) )
-			.pipe( postcss( [
+			.pipe( postcss([
 				stylelint(),
-				reporter( { clearAllMessages: true } )
-			], { syntax: scss } ) );
-	} );
+				reporter({ clearAllMessages: true })
+			], { syntax: scss }) );
+	});
 }

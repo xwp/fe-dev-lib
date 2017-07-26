@@ -30,9 +30,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 if (undefined !== _getConfig.tasks.js) {
 	var fn = function fn() {
-		var babelifyOptions = void 0,
-		    webpackConfig = void 0,
-		    esLintOptions = {};
+		var esLintOptions = {},
+		    babelifyOptions = void 0,
+		    webpackConfig = void 0;
 		var paths = _getConfig.tasks.js;
 
 		babelifyOptions = {

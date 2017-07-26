@@ -4,7 +4,7 @@ import { workflow, env } from './get-config';
 
 export const preCheck = function() {
 	const nodeTest = validateNode(),
-		  exitCode = 1;
+		exitCode = 1;
 
 	if ( ! nodeTest.satisfies ) {
 		gutil.log( gutil.colors.red( nodeTest.message ) );

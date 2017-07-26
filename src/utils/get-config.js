@@ -5,9 +5,9 @@ import gutil from 'gulp-util';
 import _defaultsDeep from 'lodash/defaultsDeep';
 
 const json = JSON.parse( fs.readFileSync( './package.json' ) ),
-	  env = yargs.argv.env,
-	  workflow = yargs.argv.workflow,
-	  browserslist = json.browserslist;
+	env = yargs.argv.env,
+	workflow = yargs.argv.workflow,
+	browserslist = json.browserslist;
 
 let tasks = [],
 	cwd = '',

@@ -4,7 +4,7 @@ import { join } from 'path';
 import { cwd } from './get-config';
 
 export default class TaskHelper {
-	constructor( { name = '', requiredPaths = [], config = null, configSlug = '' } ) {
+	constructor({ name = '', requiredPaths = [], config = null, configSlug = '' }) {
 		if ( null === config ) {
 			gutil.log(  gutil.colors.red( 'The task template is missing a configuration.' ) );
 			return;
@@ -37,17 +37,8 @@ export default class TaskHelper {
 	}
 
 	get src() {
-		const srcList = Array.isArray( this.config.src ) ? this.config.src : [ this.config.src ],
-			  src = srcList.map( path => join( cwd, path ) );
-
-		return src;
-	}
-
-	get entries() {
-		const entriesList = Array.isArray( this.config.entries ) ? this.config.entries : [ this.config.entries ],
-			  entries = entriesList.map( path => join( cwd, path ) );
-
-		return entries;
+		const srcList = Array.isArray( this.config.src ) ? this.config.src : [ this.config.src ];
+		return srcList.map( path => join( cwd, path ) );
 	}
 
 	get base() {
