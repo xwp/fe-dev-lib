@@ -12,5 +12,7 @@ const task = new TaskHelper({
 gulp.task( task.name, done => {
 	if ( task.isValid() ) {
 		del( task.src ).then( () => done() );
+	} else {
+		done();
 	}
 });

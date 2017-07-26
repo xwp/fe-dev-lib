@@ -19,9 +19,9 @@ const task = new TaskHelper({
 });
 
 if ( undefined !== task.config ) {
-	let fn = function() {
+	let fn = function( done ) {
 		if ( ! task.isValid() ) {
-			return null;
+			done();
 		}
 
 		return task.start()

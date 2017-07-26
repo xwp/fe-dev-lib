@@ -44,9 +44,9 @@ var task = new _TaskHelper2.default({
 });
 
 if (undefined !== task.config) {
-	_gulp2.default.task(task.name, function () {
+	_gulp2.default.task(task.name, function (done) {
 		if (!task.isValid()) {
-			return null;
+			done();
 		}
 
 		return task.start().pipe((0, _gulpIf2.default)(_getConfig.isDev, (0, _gulpCached2.default)(task.cacheName))).pipe((0, _gulpPostcss2.default)([(0, _stylelint2.default)(), (0, _postcssReporter2.default)({ clearAllMessages: true })], { syntax: _postcssScss2.default }));

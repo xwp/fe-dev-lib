@@ -59,9 +59,9 @@ var task = new _TaskHelper2.default({
 });
 
 if (undefined !== task.config) {
-	var fn = function fn() {
+	var fn = function fn(done) {
 		if (!task.isValid()) {
-			return null;
+			done();
 		}
 
 		return task.start()

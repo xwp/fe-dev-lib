@@ -30,9 +30,9 @@ var task = new _TaskHelper2.default({
 	config: _getConfig.tasks
 });
 
-_gulp2.default.task(task.name, function () {
+_gulp2.default.task(task.name, function (done) {
 	if (!task.isValid()) {
-		return null;
+		done();
 	}
 
 	return task.start().pipe((0, _gulpIf2.default)(_getConfig.isDev, (0, _gulpCached2.default)(task.cacheName, { optimizeMemory: false }))).pipe((0, _gulpImagemin2.default)()).pipe(task.end());

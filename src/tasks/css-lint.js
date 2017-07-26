@@ -16,9 +16,9 @@ const task = new TaskHelper({
 });
 
 if ( undefined !== task.config ) {
-	gulp.task( task.name, () => {
+	gulp.task( task.name, done => {
 		if ( ! task.isValid() ) {
-			return null;
+			done();
 		}
 
 		return task.start()

@@ -31,9 +31,9 @@ var task = new _TaskHelper2.default({
 });
 
 if (undefined !== task.config) {
-	_gulp2.default.task(task.name, function () {
+	_gulp2.default.task(task.name, function (done) {
 		if (!task.isValid()) {
-			return null;
+			done();
 		}
 
 		return task.start().pipe((0, _gulpIf2.default)(_getConfig.isDev, (0, _gulpCached2.default)(task.cacheName))).pipe((0, _gulpEslint2.default)()).pipe((0, _gulpIf2.default)(_getConfig.isProd, _gulpEslint2.default.format())).pipe((0, _gulpIf2.default)(_getConfig.isProd, _gulpEslint2.default.failAfterError()));

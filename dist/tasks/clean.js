@@ -27,5 +27,7 @@ _gulp2.default.task(task.name, function (done) {
 		(0, _del2.default)(task.src).then(function () {
 			return done();
 		});
+	} else {
+		done();
 	}
 });
