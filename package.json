@@ -1,7 +1,7 @@
 {
   "name": "fe-dev-lib",
   "version": "0.1.0",
-  "description": "Common tools to facilitate the front-end development and testing of WordPress themes and plugins",
+  "description": "Common tools to facilitate the front-end development of WordPress themes and plugins",
   "engines": {
     "node": ">=6.11.x"
   },
@@ -101,7 +101,6 @@
     "require-dir": "^0.3.2",
     "stylelint": "^8.0.0",
     "stylelint-config-xwp": "github:xwp/stylelint-config-xwp",
-    "validate-node-version": "^1.1.1",
     "webpack": "^3.3.0",
     "webpack-config-utils": "^2.3.0",
     "webpack-stream": "^3.2.0",
