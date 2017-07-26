@@ -105,5 +105,8 @@
     "webpack-config-utils": "^2.3.0",
     "webpack-stream": "^3.2.0",
     "yargs": "^8.0.2"
+  },
+  "devDependencies": {
+    "jest": "^20.0.4"
   }
 }
