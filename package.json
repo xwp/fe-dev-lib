@@ -1,0 +1,110 @@
+{
+  "name": "fe-dev-lib",
+  "version": "0.1.0",
+  "description": "Common tools to facilitate the front-end development and testing of WordPress themes and plugins",
+  "engines": {
+    "node": ">=6.11.x"
+  },
+  "main": "dist/gulpfile.js",
+  "scripts": {
+    "pre-package": "./build-workflows.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xwp/fe-dev-lib.git"
+  },
+  "keywords": [
+    "development",
+    "front-end",
+    "gulp",
+    "stylelint",
+    "tools",
+    "webpack",
+    "wordpress",
+    "workflow"
+  ],
+  "author": {
+    "name": "Piotr Delawski",
+    "email": "piotr.delawski@xwp.co",
+    "url": "https://www.xwp.co"
+  },
+  "contributors": [
+    {
+      "name": "Mike Crantea",
+      "email": "mike.crantea@xwp.co",
+      "url": "https://www.xwp.co"
+    },
+    {
+      "name": "Justin Kopepasah",
+      "email": "justin.kopepasah@xwp.co",
+      "url": "https://kopepasah.com"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xwp/fe-dev-lib/issues"
+  },
+  "homepage": "https://github.com/xwp/fe-dev-lib#readme",
+  "stylelint": {
+    "extends": "stylelint-config-xwp"
+  },
+  "babel": {
+    "presets": [
+      [
+        "env"
+      ]
+    ]
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions",
+    "last 2 Opera versions",
+    "last 2 iOS versions",
+    "last 1 Android version",
+    "last 1 ChromeAndroid version",
+    "ie 11",
+    "> 1%"
+  ],
+  "dependencies": {
+    "autoprefixer": "^7.1.2",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "del": "^3.0.0",
+    "eslint": "^4.3.0",
+    "eslint-config-wordpress": "^2.0.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-compat": "^1.0.4",
+    "gulp": "gulpjs/gulp.git#4.0",
+    "gulp-cached": "^1.1.1",
+    "gulp-eslint": "^4.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-imagemin": "^3.3.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-postcss": "^7.0.0",
+    "gulp-progeny": "^0.4.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-watch": "^4.3.11",
+    "lodash": "^4.17.4",
+    "postcss": "^6.0.8",
+    "postcss-assets": "^4.2.0",
+    "postcss-cssnext": "^3.0.2",
+    "postcss-pxtorem": "^4.0.1",
+    "postcss-reporter": "^4.0.0",
+    "postcss-scss": "^1.0.2",
+    "progress-bar-webpack-plugin": "^1.10.0",
+    "require-dir": "^0.3.2",
+    "stylelint": "^8.0.0",
+    "stylelint-config-xwp": "github:xwp/stylelint-config-xwp",
+    "validate-node-version": "^1.1.1",
+    "webpack": "^3.3.0",
+    "webpack-config-utils": "^2.3.0",
+    "webpack-stream": "^3.2.0",
+    "yargs": "^8.0.2"
+  }
+}
