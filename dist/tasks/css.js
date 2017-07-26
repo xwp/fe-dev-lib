@@ -64,8 +64,6 @@ if (undefined !== task.config) {
 			return null;
 		}
 
-		var postcssProcessors = getProcessors(task.config.postcssProcessors);
-
 		return task.start()
 
 		// Caching and incremental building (progeny) in Gulp.
@@ -75,7 +73,7 @@ if (undefined !== task.config) {
 		.pipe((0, _gulpIf2.default)(_getConfig.isDev, _gulpSourcemaps2.default.init())).pipe((0, _gulpSass2.default)({
 			includePaths: undefined !== task.config.includePaths ? task.config.includePaths : [],
 			outputStyle: _getConfig.isDev ? 'expanded' : 'compressed'
-		}).on('error', _gulpSass2.default.logError)).pipe((0, _gulpIf2.default)(null !== postcssProcessors, (0, _gulpPostcss2.default)(postcssProcessors))).pipe((0, _gulpIf2.default)(_getConfig.isDev, _gulpSourcemaps2.default.write(''))).pipe(task.end());
+		}).on('error', _gulpSass2.default.logError)).pipe((0, _gulpIf2.default)(task.config.postcssProcessors, (0, _gulpPostcss2.default)(getProcessors(task.config.postcssProcessors)))).pipe((0, _gulpIf2.default)(_getConfig.isDev, _gulpSourcemaps2.default.write(''))).pipe(task.end());
 	};
 
 	fn.displayName = 'css-compile';
@@ -90,51 +88,19 @@ if (undefined !== task.config) {
 function getProcessors() {
 	var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-	var processors = [],
-	    defaults = void 0,
-	    s = void 0;
+	var processors = [];
 
-	if (null === settings) {
-		return null;
+	if (undefined !== settings.cssnext) {
+		processors.push((0, _postcssCssnext2.default)(settings.cssnext));
 	}
-
-	defaults = {
-		cssnext: {
-			warnForDuplicates: false
-		},
-		autoprefixer: {},
-		pxtorem: {
-			rootValue: 16,
-			unitPrecision: 5,
-			propList: ['*'],
-			selectorBlackList: [],
-			replace: true,
-			mediaQuery: true,
-			minPixelValue: 2
-		},
-		assets: {
-			relative: true
-		}
-	};
-
-	if (false !== settings.cssnext) {
-		s = true === settings.cssnext ? {} : settings.cssnext;
-		processors.push((0, _postcssCssnext2.default)(Object.assign(defaults.cssnext, s)));
+	if (undefined !== settings.autoprefixer) {
+		processors.push((0, _autoprefixer2.default)(settings.autoprefixer));
 	}
-
-	if (false !== settings.autoprefixer) {
-		s = true === settings.autoprefixer ? {} : settings.autoprefixer;
-		processors.push((0, _autoprefixer2.default)(Object.assign(defaults.autoprefixer, s)));
+	if (undefined !== settings.pxtorem) {
+		processors.push((0, _postcssPxtorem2.default)(settings.pxtorem));
 	}
-
-	if (false !== settings.pxtorem) {
-		s = true === settings.pxtorem ? {} : settings.pxtorem;
-		processors.push((0, _postcssPxtorem2.default)(Object.assign(defaults.pxtorem, s)));
-	}
-
-	if (false !== settings.assets) {
-		s = true === settings.assets ? {} : settings.assets;
-		processors.push((0, _postcssAssets2.default)(Object.assign(defaults.assets, s)));
+	if (undefined !== settings.assets) {
+		processors.push((0, _postcssAssets2.default)(settings.assets));
 	}
 
 	return processors;

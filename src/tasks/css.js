@@ -24,8 +24,6 @@ if ( undefined !== task.config ) {
 			return null;
 		}
 
-		const postcssProcessors = getProcessors( task.config.postcssProcessors );
-
 		return task.start()
 
 			// Caching and incremental building (progeny) in Gulp.
@@ -38,7 +36,7 @@ if ( undefined !== task.config ) {
 				includePaths: undefined !== task.config.includePaths ? task.config.includePaths : [],
 				outputStyle: isDev ? 'expanded' : 'compressed'
 			}).on( 'error', sass.logError ) )
-			.pipe( gulpIf( null !== postcssProcessors, postcss( postcssProcessors ) ) )
+			.pipe( gulpIf( task.config.postcssProcessors, postcss( getProcessors( task.config.postcssProcessors ) ) ) )
 			.pipe( gulpIf( isDev, sourcemaps.write( '' ) ) )
 
 			.pipe( task.end() );
@@ -54,50 +52,19 @@ if ( undefined !== task.config ) {
 }
 
 function getProcessors( settings = {} ) {
-	let processors = [],
-		defaults, s;
+	let processors = [];
 
-	if ( null === settings ) {
-		return null;
+	if ( undefined !== settings.cssnext ) {
+		processors.push( cssnext( settings.cssnext ) );
 	}
-
-	defaults = {
-		cssnext:      {
-			warnForDuplicates: false
-		},
-		autoprefixer: {},
-		pxtorem: {
-			rootValue: 16,
-			unitPrecision: 5,
-			propList: [ '*' ],
-			selectorBlackList: [],
-			replace: true,
-			mediaQuery: true,
-			minPixelValue: 2
-		},
-		assets: {
-			relative: true
-		}
-	};
-
-	if ( false !== settings.cssnext ) {
-		s = true === settings.cssnext ? {} : settings.cssnext;
-		processors.push( cssnext( Object.assign( defaults.cssnext, s ) ) );
+	if ( undefined !== settings.autoprefixer ) {
+		processors.push( autoprefixer( settings.autoprefixer ) );
 	}
-
-	if ( false !== settings.autoprefixer ) {
-		s = true === settings.autoprefixer ? {} : settings.autoprefixer;
-		processors.push( autoprefixer( Object.assign( defaults.autoprefixer, s ) ) );
+	if ( undefined !== settings.pxtorem ) {
+		processors.push( pxtorem( settings.pxtorem ) );
 	}
-
-	if ( false !== settings.pxtorem ) {
-		s = true === settings.pxtorem ? {} : settings.pxtorem;
-		processors.push( pxtorem( Object.assign( defaults.pxtorem, s ) ) );
-	}
-
-	if ( false !== settings.assets ) {
-		s = true === settings.assets ? {} : settings.assets;
-		processors.push( assets( Object.assign( defaults.assets, s ) ) );
+	if ( undefined !== settings.assets ) {
+		processors.push( assets( settings.assets ) );
 	}
 
 	return processors;
