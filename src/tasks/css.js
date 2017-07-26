@@ -12,11 +12,11 @@ import autoprefixer from 'autoprefixer';
 import assets from 'postcss-assets';
 import TaskHelper from '../utils/TaskHelper';
 
-const task = new TaskHelper( {
+const task = new TaskHelper({
 	name: 'css',
 	requiredPaths: [ 'src', 'dest' ],
 	config: tasks
-} );
+});
 
 if ( undefined !== task.config ) {
 	let fn = function() {
@@ -34,7 +34,7 @@ if ( undefined !== task.config ) {
 			.pipe( gulpIf( isDev, sourcemaps.init() ) )
 			.pipe( sass( {
 				includePaths: undefined !== task.config.includePaths ? task.config.includePaths : [],
-				outputStyle:  isDev ? 'expanded' : 'compressed'
+				outputStyle: isDev ? 'expanded' : 'compressed'
 			} ).on( 'error', sass.logError ) )
 			.pipe( postcss( getProcessors( task.config.postcssProcessors ) ) )
 			.pipe( gulpIf( isDev, sourcemaps.write( '' ) ) )
@@ -51,24 +51,25 @@ if ( undefined !== task.config ) {
 	}
 }
 
-function getProcessors( settings ) {
-	let processors = [], defaults, s;
+function getProcessors( settings = {} ) {
+	let processors = [],
+		defaults, s;
 
 	defaults = {
 		cssnext:      {
 			warnForDuplicates: false
 		},
 		autoprefixer: {},
-		pxtorem:      {
-			rootValue:         16,
-			unitPrecision:     5,
-			propList:          [ '*' ],
+		pxtorem: {
+			rootValue: 16,
+			unitPrecision: 5,
+			propList: [ '*' ],
 			selectorBlackList: [],
-			replace:           true,
-			mediaQuery:        true,
-			minPixelValue:     2
+			replace: true,
+			mediaQuery: true,
+			minPixelValue: 2
 		},
-		assets:       {
+		assets: {
 			relative: true
 		}
 	};

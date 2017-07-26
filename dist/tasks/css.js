@@ -85,7 +85,9 @@ if (undefined !== task.config) {
 	}
 }
 
-function getProcessors(settings) {
+function getProcessors() {
+	var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
 	var processors = [],
 	    defaults = void 0,
 	    s = void 0;
