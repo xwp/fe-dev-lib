@@ -64,6 +64,8 @@ if (undefined !== task.config) {
 			return null;
 		}
 
+		var postcssProcessors = getProcessors(task.config.postcssProcessors);
+
 		return task.start()
 
 		// Caching and incremental building (progeny) in Gulp.
@@ -73,12 +75,12 @@ if (undefined !== task.config) {
 		.pipe((0, _gulpIf2.default)(_getConfig.isDev, _gulpSourcemaps2.default.init())).pipe((0, _gulpSass2.default)({
 			includePaths: undefined !== task.config.includePaths ? task.config.includePaths : [],
 			outputStyle: _getConfig.isDev ? 'expanded' : 'compressed'
-		}).on('error', _gulpSass2.default.logError)).pipe((0, _gulpPostcss2.default)(getProcessors(task.config.postcssProcessors))).pipe((0, _gulpIf2.default)(_getConfig.isDev, _gulpSourcemaps2.default.write(''))).pipe(task.end());
+		}).on('error', _gulpSass2.default.logError)).pipe((0, _gulpIf2.default)(null !== postcssProcessors, (0, _gulpPostcss2.default)(postcssProcessors))).pipe((0, _gulpIf2.default)(_getConfig.isDev, _gulpSourcemaps2.default.write(''))).pipe(task.end());
 	};
 
 	fn.displayName = 'css-compile';
 
-	if (undefined !== task.config.enableLinter && true === task.config.enableLinter) {
+	if (true === task.config.enableLinter) {
 		_gulp2.default.task('css', _gulp2.default.series('css-lint', fn));
 	} else {
 		_gulp2.default.task('css', fn);
@@ -91,6 +93,10 @@ function getProcessors() {
 	var processors = [],
 	    defaults = void 0,
 	    s = void 0;
+
+	if (null === settings) {
+		return null;
+	}
 
 	defaults = {
 		cssnext: {

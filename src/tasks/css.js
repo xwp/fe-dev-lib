@@ -24,6 +24,8 @@ if ( undefined !== task.config ) {
 			return null;
 		}
 
+		const postcssProcessors = getProcessors( task.config.postcssProcessors );
+
 		return task.start()
 
 			// Caching and incremental building (progeny) in Gulp.
@@ -32,11 +34,11 @@ if ( undefined !== task.config ) {
 
 			// Actual SASS compilation.
 			.pipe( gulpIf( isDev, sourcemaps.init() ) )
-			.pipe( sass( {
+			.pipe( sass({
 				includePaths: undefined !== task.config.includePaths ? task.config.includePaths : [],
 				outputStyle: isDev ? 'expanded' : 'compressed'
-			} ).on( 'error', sass.logError ) )
-			.pipe( postcss( getProcessors( task.config.postcssProcessors ) ) )
+			}).on( 'error', sass.logError ) )
+			.pipe( gulpIf( null !== postcssProcessors, postcss( postcssProcessors ) ) )
 			.pipe( gulpIf( isDev, sourcemaps.write( '' ) ) )
 
 			.pipe( task.end() );
@@ -44,7 +46,7 @@ if ( undefined !== task.config ) {
 
 	fn.displayName = 'css-compile';
 
-	if ( undefined !== task.config.enableLinter && true === task.config.enableLinter ) {
+	if ( true === task.config.enableLinter ) {
 		gulp.task( 'css', gulp.series( 'css-lint', fn ) );
 	} else {
 		gulp.task( 'css', fn );
@@ -54,6 +56,10 @@ if ( undefined !== task.config ) {
 function getProcessors( settings = {} ) {
 	let processors = [],
 		defaults, s;
+
+	if ( null === settings ) {
+		return null;
+	}
 
 	defaults = {
 		cssnext:      {
