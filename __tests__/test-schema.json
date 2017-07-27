@@ -1,0 +1,14 @@
+{
+	"task1": "val1",
+	"task2": {
+		"task2prop1": "val2",
+		"task2prop2": "val3"
+	},
+	"task3": {
+		"task3prop1": {
+			"task3subprop1": [ "item1", "item2" ]
+		},
+		"task3prop2": "val5"
+	},
+	"task4": "val4"
+}

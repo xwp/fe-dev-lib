@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-import ConfigClass from './ConfigClass';
+import ConfigClass from '../src/utils/ConfigClass';
 
 describe( 'ConfigClass env', () => {
 	let configProd = new ConfigClass( {}, { env: 'prod' } ),
@@ -83,3 +83,65 @@ describe( 'ConfigClass cwd', () => {
 	} );
 } );
 
+describe( 'ConfigClass schema', () => {
+	let configA = new ConfigClass( { schema: './__tests__/test-schema.json', tasks: {} } ),
+		configB = new ConfigClass( { schema: 'default', tasks: {} }),
+		configC = new ConfigClass( { tasks: {} });
+
+	it( 'returns proper relative schema file', () => {
+		expect( configA.schema ).toHaveProperty( 'task1' );
+		expect( configA.schema ).toHaveProperty( 'task2' );
+		expect( configA.schema ).toHaveProperty( 'task2.task2prop1' );
+		expect( configA.schema ).toHaveProperty( 'task2.task2prop2' );
+		expect( configA.schema ).toHaveProperty( 'task3' );
+		expect( configA.schema ).toHaveProperty( 'task3.task3prop1' );
+		expect( configA.schema ).toHaveProperty( 'task3.task3prop1.task3subprop1' );
+	} );
+
+	it( 'returns named schema if schema name is provided in config', () => {
+		expect( configB.schema ).toHaveProperty( 'clean' );
+		expect( configB.schema ).toHaveProperty( 'css' );
+		expect( configB.schema ).toHaveProperty( 'images' );
+	} );
+
+	it( 'returns empty object if no schema is provided in config', () => {
+		expect( configC.schema ).toBe( false );
+	} );
+} );
+
+describe( 'ConfigClass tasks', () => {
+	let configA = new ConfigClass( { tasks: { taskA: 'valA', taskB: { prop1: 'valB' } } } ),
+		configB = new ConfigClass( { schema: './__tests__/test-schema.json', tasks: {
+			task1: null,
+			task2: {
+				task2prop2: 'overridden value',
+				task2newProp2: 'new prop, new value'
+			},
+			task3: {
+				task3prop1: {
+					newProp: 'whole new object'
+				},
+				task3prop2: null
+			},
+			task4: null
+		} });
+
+	it( 'include tasks from the config', () => {
+		expect( configA.tasks ).toEqual( { taskA: 'valA', taskB: { prop1: 'valB' } } );
+	} );
+
+	it( 'include test schema tasks overridden by config tasks', () => {
+		expect( configB.tasks ).toEqual({
+			task2: {
+				task2prop1: "val2",
+				task2prop2: 'overridden value',
+				task2newProp2: 'new prop, new value'
+			},
+			task3: {
+				task3prop1: {
+					newProp: 'whole new object'
+				}
+			}
+		});
+	} );
+} );

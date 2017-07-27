@@ -6,7 +6,7 @@ import { cwd } from './get-config';
 export default class TaskHelper {
 	constructor({ name = '', requiredPaths = [], config = null, configSlug = '' }) {
 		if ( null === config ) {
-			gutil.log(  gutil.colors.red( 'The task template is missing a configuration.' ) );
+			gutil.log(  gutil.colors.red( `The task '${ name }' template is missing a configuration.` ) );
 			return;
 		}
 
