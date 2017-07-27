@@ -36,7 +36,7 @@ var TaskHelper = function () {
 		_classCallCheck(this, TaskHelper);
 
 		if (null === config) {
-			_gulpUtil2.default.log(_gulpUtil2.default.colors.red('The task template is missing a configuration.'));
+			_gulpUtil2.default.log(_gulpUtil2.default.colors.red('The task \'' + name + '\' template is missing a configuration.'));
 			return;
 		}
 

@@ -26,6 +26,10 @@ var _gulpPlumber = require('gulp-plumber');
 
 var _gulpPlumber2 = _interopRequireDefault(_gulpPlumber);
 
+var _browserslist = require('browserslist');
+
+var _browserslist2 = _interopRequireDefault(_browserslist);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 if (undefined !== _getConfig.tasks.js) {
@@ -38,7 +42,7 @@ if (undefined !== _getConfig.tasks.js) {
 		babelifyOptions = {
 			presets: [['env', {
 				targets: {
-					browsers: _getConfig.browserslist
+					browsers: (0, _browserslist2.default)()
 				}
 			}]]
 		};
