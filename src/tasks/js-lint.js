@@ -5,13 +5,13 @@ import eslint from 'gulp-eslint';
 import gulpIf from 'gulp-if';
 import TaskHelper from '../utils/TaskHelper';
 
-const task = new TaskHelper({
-	name: 'js-lint',
-	requiredPaths: [ 'src' ],
-	config: tasks
-});
+if ( tasks.js ) {
+	const task = new TaskHelper( {
+		name:          'js-lint',
+		requiredPaths: [ 'src' ],
+		config:        tasks.js
+	} );
 
-if ( undefined !== task.config ) {
 	gulp.task( task.name, done => {
 		if ( ! task.isValid() ) {
 			done();
@@ -24,4 +24,3 @@ if ( undefined !== task.config ) {
 			.pipe( gulpIf( isProd, eslint.failAfterError() ) );
 	} );
 }
-

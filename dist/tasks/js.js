@@ -32,7 +32,7 @@ var _browserslist2 = _interopRequireDefault(_browserslist);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-if (undefined !== _getConfig.tasks.js) {
+if (_getConfig.tasks.js) {
 	var fn = function fn() {
 		var esLintOptions = {},
 		    babelifyOptions = void 0,

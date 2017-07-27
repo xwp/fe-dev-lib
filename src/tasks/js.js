@@ -8,7 +8,7 @@ import { removeEmpty } from 'webpack-config-utils';
 import plumber from 'gulp-plumber';
 import browserslist from 'browserslist';
 
-if ( undefined !== tasks.js ) {
+if ( tasks.js ) {
 	let fn = function() {
 		let esLintOptions = {},
 			babelifyOptions, webpackConfig;

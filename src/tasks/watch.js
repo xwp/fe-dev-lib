@@ -2,7 +2,7 @@ import gulp from 'gulp';
 import { tasks, cwd } from '../utils/get-config';
 import { join } from 'path';
 
-if ( undefined !== tasks.watch && undefined !== tasks.watch.tasks ) {
+if ( tasks.watch && undefined !== tasks.watch.tasks ) {
 	gulp.task( 'watch', () => {
 
 		// Omit some tasks, e.g. `js` is already watched by Webpack.

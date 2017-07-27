@@ -52,13 +52,34 @@ var _TaskHelper2 = _interopRequireDefault(_TaskHelper);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var task = new _TaskHelper2.default({
-	name: 'css',
-	requiredPaths: ['src', 'dest'],
-	config: _getConfig.tasks
-});
+if (_getConfig.tasks.css) {
+	var getProcessors = function getProcessors() {
+		var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-if (undefined !== task.config) {
+		var processors = [];
+
+		if (undefined !== settings.cssnext) {
+			processors.push((0, _postcssCssnext2.default)(settings.cssnext));
+		}
+		if (undefined !== settings.autoprefixer) {
+			processors.push((0, _autoprefixer2.default)(settings.autoprefixer));
+		}
+		if (undefined !== settings.pxtorem) {
+			processors.push((0, _postcssPxtorem2.default)(settings.pxtorem));
+		}
+		if (undefined !== settings.assets) {
+			processors.push((0, _postcssAssets2.default)(settings.assets));
+		}
+
+		return processors;
+	};
+
+	var task = new _TaskHelper2.default({
+		name: 'css',
+		requiredPaths: ['src', 'dest'],
+		config: _getConfig.tasks.css
+	});
+
 	var fn = function fn(done) {
 		if (!task.isValid()) {
 			done();
@@ -83,25 +104,4 @@ if (undefined !== task.config) {
 	} else {
 		_gulp2.default.task('css', fn);
 	}
-}
-
-function getProcessors() {
-	var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-	var processors = [];
-
-	if (undefined !== settings.cssnext) {
-		processors.push((0, _postcssCssnext2.default)(settings.cssnext));
-	}
-	if (undefined !== settings.autoprefixer) {
-		processors.push((0, _autoprefixer2.default)(settings.autoprefixer));
-	}
-	if (undefined !== settings.pxtorem) {
-		processors.push((0, _postcssPxtorem2.default)(settings.pxtorem));
-	}
-	if (undefined !== settings.assets) {
-		processors.push((0, _postcssAssets2.default)(settings.assets));
-	}
-
-	return processors;
 }

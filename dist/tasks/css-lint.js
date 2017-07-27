@@ -36,14 +36,13 @@ var _TaskHelper2 = _interopRequireDefault(_TaskHelper);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var task = new _TaskHelper2.default({
-	name: 'css-lint',
-	requiredPaths: ['src'],
-	config: _getConfig.tasks,
-	configSlug: 'css'
-});
+if (_getConfig.tasks.css) {
+	var task = new _TaskHelper2.default({
+		name: 'css-lint',
+		requiredPaths: ['src'],
+		config: _getConfig.tasks.css
+	});
 
-if (undefined !== task.config) {
 	_gulp2.default.task(task.name, function (done) {
 		if (!task.isValid()) {
 			done();

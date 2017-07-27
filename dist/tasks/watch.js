@@ -10,7 +10,7 @@ var _path = require('path');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-if (undefined !== _getConfig.tasks.watch && undefined !== _getConfig.tasks.watch.tasks) {
+if (_getConfig.tasks.watch && undefined !== _getConfig.tasks.watch.tasks) {
 	_gulp2.default.task('watch', function () {
 
 		// Omit some tasks, e.g. `js` is already watched by Webpack.

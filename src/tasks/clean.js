@@ -3,16 +3,18 @@ import { tasks } from '../utils/get-config';
 import del from 'del';
 import TaskHelper from '../utils/TaskHelper';
 
-const task = new TaskHelper({
-	name: 'clean',
-	requiredPaths: [ 'src' ],
-	config: tasks
-});
+if ( tasks.clean ) {
+	const task = new TaskHelper( {
+		name:          'clean',
+		requiredPaths: [ 'src' ],
+		config:        tasks.clean
+	} );
 
-gulp.task( task.name, done => {
-	if ( task.isValid() ) {
-		del( task.src ).then( () => done() );
-	} else {
-		done();
-	}
-});
+	gulp.task( task.name, done => {
+		if ( task.isValid() ) {
+			del( task.src ).then( () => done() );
+		} else {
+			done();
+		}
+	} );
+}
