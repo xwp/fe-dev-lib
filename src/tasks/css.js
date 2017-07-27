@@ -50,7 +50,7 @@ if ( tasks.css ) {
 		gulp.task( 'css', fn );
 	}
 
-	function getProcessors ( settings = {} ) {
+	function getProcessors( settings = {} ) {
 		let processors = [];
 
 		if ( undefined !== settings.cssnext ) {

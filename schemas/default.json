@@ -39,5 +39,5 @@
 		"base": "src/fonts",
 		"dest": "dist/fonts"
 	},
-	"watch": [ "css", "copy", "images" ]
+	"watch": [ "css", "copy", "images"]
 }
