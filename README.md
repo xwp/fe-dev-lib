@@ -28,7 +28,7 @@ yarn add -D https://github.com/xwp/fe-dev-lib
 
 ### Setup linters and browsers list
 
-Copy `.eslintrc` and `.stylelintrc` to your project's root directory.
+Copy `.eslintrc` and `.stylelintrc` to your project's root directory or add linting rules directly to the `package.json` file.
 
 Add a [`browserslist`](https://github.com/ai/browserslist) to your `package.json` file, e.g.:
 
@@ -47,25 +47,50 @@ Add a [`browserslist`](https://github.com/ai/browserslist) to your `package.json
   ]
 ```
 
-Because of the current `browserslist` limitations, it's not possible to use `.browserslistrc` config file.
-You have to use `package.json`.
-
-Please also note that you can define both ESLint and Stylelint setup directly inside `package.json` as well if you prefer.
-
 ### Setup scripts
 
 Add build scripts to the `scripts` section of your `package.json`, e.g.:
 
 ```JSON
 "scripts": {
-    "compile": "gulp --gulpfile ./node_modules/fe-dev-lib/dist/gulpfile.js --cwd ./ --workflow=theme-name --env=dev",
+    "compile": "gulp --gulpfile ./node_modules/fe-dev-lib/dist/gulpfile.js --cwd ./ --workflow=my-theme --env=dev",
 }
 ```
-The `--env` flag is optional and can be: `dev`, `prod` or `test`. It defaults to `dev`.
 
-The `--workflow` flag should match a workflow definition in the `workflows` section (described in the following section).
+You can use multiple scripts.
 
-You are free to add multiple scripts.
+**The reference of flags used in the script:**
+
+#### `--gulpfile`
+*Required:* path to the Gulpfile inside `fe-dev-lib` package.
+
+#### `--cwd`
+*Required:* current working directory path. Should be set to the project's root, i.e. `./`
+
+#### `--env=dev`
+*Optional:* environment name.
+
+* Accepted values: `dev`, `prod`, `test`
+* Default: `dev`
+
+#### `--workflow`
+*Optional:* workflow name that should match an entry in the `workflows` object in the `package.json`.
+
+If not provided, the script assumes there is only one workflow located in the root of the `workflows` object.
+
+In order to run a script use:
+
+```bash
+npm run compile
+```
+
+or, with Yarn:
+
+```bash
+yarn run compile
+```
+
+where `compile` is the script name.
 
 ## Workflows
 
@@ -73,26 +98,36 @@ With `fe-dev-lib` you can define multiple workflows that would serve different n
 For instance, you can defined a `theme` workflow that will compile SCSS, JS and copy assets in your theme,
 while a `plugin` workflow will perform tasks needed in the WordPress plugin development.
 
-Workflow has the following form:
+Workflow is of the following form:
 
 ```json
-"workflows: {
-  "theme-name": {
+"workflows": {
+  "my-theme": {
     "cwd": "wp-content/themes/my-theme/assets",
     "schema": "default"
     "tasks": {
       ...
     }
   }
-  ...
 }
 ```
 
-Here's a short explanation of the properties used:
-* `theme-name` - workflow name. It should match the name defined in the `scripts` entry.
-* `cwd` - *optional:* path to the root of your workflow
-* `schema` - *optional:* schema name. Schemas are predefined templates located in `fe-dev-lib/schemas`.
-* `tasks` - *optional:* tasks definition or overrides if `schema` is used
+**Workflow properties:**
+
+#### `my-theme`
+*Optional:* workflow name that you reference in the `scripts` section with `--workflow` flag.
+
+If no workflow name is provided (i.e. workflow definition is at the root of the `workflows` object), you don't have to provide `--workflow` flag in the script.
+
+#### `cwd`
+*Optional:* path to the root of your workflow.
+
+#### `schema`
+*Optional:* schema name.
+Schemas are predefined templates located in `fe-dev-lib/schemas`.
+
+#### `tasks`
+*Optional:* tasks definitions and overrides of the `schema` tasks (if schema is used).
 
 ### Using schemas
 
