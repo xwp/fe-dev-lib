@@ -4,28 +4,23 @@ import { join } from 'path';
 import { cwd } from './get-config';
 
 export default class TaskHelper {
-	constructor({ name = '', requiredPaths = [], config = null, configSlug = '' }) {
+	constructor({ name = '', requiredPaths = [], config = null }) {
 		if ( null === config ) {
-			gutil.log(  gutil.colors.red( 'The task template is missing a configuration.' ) );
+			gutil.log(  gutil.colors.red( `The task '${ name }' template is missing a configuration.` ) );
 			return;
 		}
 
 		this._name = name;
 		this._requiredPaths = requiredPaths;
 		this._config = config;
-		this._configSlug = '' === configSlug ? name : configSlug;
 	}
 
 	get config() {
-		return '' === this.configSlug ? this._config : this._config[ this.configSlug ];
+		return this._config;
 	}
 
 	get name() {
 		return this._name;
-	}
-
-	get configSlug() {
-		return this._configSlug;
 	}
 
 	get requiredPaths() {

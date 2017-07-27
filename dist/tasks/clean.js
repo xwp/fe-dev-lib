@@ -16,18 +16,20 @@ var _TaskHelper2 = _interopRequireDefault(_TaskHelper);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var task = new _TaskHelper2.default({
-	name: 'clean',
-	requiredPaths: ['src'],
-	config: _getConfig.tasks
-});
+if (_getConfig.tasks.clean) {
+	var task = new _TaskHelper2.default({
+		name: 'clean',
+		requiredPaths: ['src'],
+		config: _getConfig.tasks.clean
+	});
 
-_gulp2.default.task(task.name, function (done) {
-	if (task.isValid()) {
-		(0, _del2.default)(task.src).then(function () {
-			return done();
-		});
-	} else {
-		done();
-	}
-});
+	_gulp2.default.task(task.name, function (done) {
+		if (task.isValid()) {
+			(0, _del2.default)(task.src).then(function () {
+				return done();
+			});
+		} else {
+			done();
+		}
+	});
+}

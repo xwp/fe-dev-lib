@@ -1,4 +1,4 @@
-import { tasks, isProd, isDev, browserslist, cwd } from '../utils/get-config';
+import { tasks, isProd, isDev, cwd } from '../utils/get-config';
 import gulp from 'gulp';
 import { resolve } from 'path';
 import webpack from 'webpack';
@@ -6,8 +6,9 @@ import webpackStream from 'webpack-stream';
 import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 import { removeEmpty } from 'webpack-config-utils';
 import plumber from 'gulp-plumber';
+import browserslist from 'browserslist';
 
-if ( undefined !== tasks.js ) {
+if ( tasks.js ) {
 	let fn = function() {
 		let esLintOptions = {},
 			babelifyOptions, webpackConfig;
@@ -17,7 +18,7 @@ if ( undefined !== tasks.js ) {
 			presets: [
 				[ 'env', {
 					targets: {
-						browsers: browserslist
+						browsers: browserslist()
 					}
 				} ]
 			]

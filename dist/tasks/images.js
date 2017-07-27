@@ -24,16 +24,18 @@ var _TaskHelper2 = _interopRequireDefault(_TaskHelper);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var task = new _TaskHelper2.default({
-	name: 'images',
-	requiredPaths: ['src', 'dest'],
-	config: _getConfig.tasks
-});
+if (_getConfig.tasks.images) {
+	var task = new _TaskHelper2.default({
+		name: 'images',
+		requiredPaths: ['src', 'dest'],
+		config: _getConfig.tasks.images
+	});
 
-_gulp2.default.task(task.name, function (done) {
-	if (!task.isValid()) {
-		done();
-	}
+	_gulp2.default.task(task.name, function (done) {
+		if (!task.isValid()) {
+			done();
+		}
 
-	return task.start().pipe((0, _gulpIf2.default)(_getConfig.isDev, (0, _gulpCached2.default)(task.cacheName, { optimizeMemory: false }))).pipe((0, _gulpImagemin2.default)()).pipe(task.end());
-});
+		return task.start().pipe((0, _gulpIf2.default)(_getConfig.isDev, (0, _gulpCached2.default)(task.cacheName, { optimizeMemory: false }))).pipe((0, _gulpImagemin2.default)()).pipe(task.end());
+	});
+}

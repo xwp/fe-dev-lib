@@ -2,12 +2,12 @@ import gulp from 'gulp';
 import { tasks, cwd } from '../utils/get-config';
 import { join } from 'path';
 
-if ( undefined !== tasks.watch && undefined !== tasks.watch.tasks ) {
+if ( tasks.watch && 0 < tasks.watch.length ) {
 	gulp.task( 'watch', () => {
 
 		// Omit some tasks, e.g. `js` is already watched by Webpack.
 		const ignoredTasks = [ 'js', 'js-lint', 'clean' ],
-			filteredTasks = tasks.watch.tasks.filter( task => ! ignoredTasks.includes( task ) );
+			filteredTasks = tasks.watch.filter( task => ! ignoredTasks.includes( task ) );
 
 		filteredTasks.forEach( taskSlug => {
 			const task = tasks[ taskSlug ];

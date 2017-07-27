@@ -8,14 +8,13 @@ import scss from 'postcss-scss';
 import stylelint from 'stylelint';
 import TaskHelper from '../utils/TaskHelper';
 
-const task = new TaskHelper({
-	name: 'css-lint',
-	requiredPaths: [ 'src' ],
-	config: tasks,
-	configSlug: 'css'
-});
+if ( tasks.css ) {
+	const task = new TaskHelper( {
+		name:          'css-lint',
+		requiredPaths: [ 'src' ],
+		config:        tasks.css
+	} );
 
-if ( undefined !== task.config ) {
 	gulp.task( task.name, done => {
 		if ( ! task.isValid() ) {
 			done();
@@ -23,9 +22,9 @@ if ( undefined !== task.config ) {
 
 		return task.start()
 			.pipe( gulpIf( isDev, cache( task.cacheName ) ) )
-			.pipe( postcss([
+			.pipe( postcss( [
 				stylelint(),
-				reporter({ clearAllMessages: true })
-			], { syntax: scss }) );
-	});
+				reporter( { clearAllMessages: true } )
+			], { syntax: scss } ) );
+	} );
 }

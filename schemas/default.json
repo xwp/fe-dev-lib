@@ -39,11 +39,5 @@
 		"base": "src/fonts",
 		"dest": "dist/fonts"
 	},
-	"watch": {
-		"tasks": [
-			"css",
-			"copy",
-			"images"
-		]
-	}
+	"watch": [ "css", "copy", "images" ]
 }

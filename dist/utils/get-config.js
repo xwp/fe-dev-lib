@@ -3,83 +3,52 @@
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.browserslist = exports.workflow = exports.isProd = exports.isTest = exports.isDev = exports.cwd = exports.env = exports.tasks = exports.json = undefined;
+exports.workflowName = exports.workflow = exports.tasks = exports.isTest = exports.isProd = exports.isDev = exports.env = exports.cwd = undefined;
 
 var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _yargs = require('yargs');
-
-var _yargs2 = _interopRequireDefault(_yargs);
-
-var _path = require('path');
-
 var _gulpUtil = require('gulp-util');
 
 var _gulpUtil2 = _interopRequireDefault(_gulpUtil);
 
-var _defaultsDeep2 = require('lodash/defaultsDeep');
+var _yargs = require('yargs');
 
-var _defaultsDeep3 = _interopRequireDefault(_defaultsDeep2);
+var _yargs2 = _interopRequireDefault(_yargs);
+
+var _ConfigClass = require('./ConfigClass');
+
+var _ConfigClass2 = _interopRequireDefault(_ConfigClass);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var json = JSON.parse(_fs2.default.readFileSync('./package.json')),
-    workflow = _yargs2.default.argv.workflow,
-    browserslist = json.browserslist;
+var configFile = './package.json';
+var configJSON = void 0,
+    config = void 0;
 
-var tasks = [],
-    cwd = '',
-    schema = '',
-    isTest = false,
-    isProd = false,
-    isDev = false,
-    env = _yargs2.default.argv.env;
-
-switch (env) {
-	case 'test':
-		exports.isTest = isTest = true;
-		break;
-	case 'prod':
-	case 'production':
-		exports.isProd = isProd = true;
-		break;
-	default:
-		exports.isDev = isDev = true;
-		exports.env = env = 'dev';
+if (!_fs2.default.existsSync(configFile)) {
+	_gulpUtil2.default.log(_gulpUtil2.default.colors.red('Config file not found. Aborting...'));
+	process.exit(1);
 }
 
-if (undefined !== workflow && undefined !== json.workflows[workflow]) {
-	exports.tasks = tasks = json.workflows[workflow];
-}
-if (undefined !== tasks.cwd) {
-	exports.cwd = cwd = tasks.cwd;
-	delete tasks.cwd;
-}
+configJSON = JSON.parse(_fs2.default.readFileSync(configFile));
+config = new _ConfigClass2.default(configJSON.workflows, _yargs2.default.argv);
 
-function getSchema(slug) {
-	var file = (0, _path.resolve)(__dirname, '../../schemas/' + slug + '.json');
-
-	if (!_fs2.default.existsSync(file)) {
-		_gulpUtil2.default.log(_gulpUtil2.default.colors.yellow('Schema \'' + slug + '\' not found, ignoring...'));
-		return {};
-	}
-
-	return JSON.parse(_fs2.default.readFileSync(file));
-}
-if (undefined !== tasks.schema) {
-	schema = getSchema(tasks.schema);
-	delete tasks.schema;
-	exports.tasks = tasks = (0, _defaultsDeep3.default)(tasks, schema);
-}
-
-exports.json = json;
-exports.tasks = tasks;
-exports.env = env;
+var _config = config,
+    cwd = _config.cwd,
+    env = _config.env,
+    isDev = _config.isDev,
+    isProd = _config.isProd,
+    isTest = _config.isTest,
+    tasks = _config.tasks,
+    workflow = _config.workflow,
+    workflowName = _config.workflowName;
 exports.cwd = cwd;
+exports.env = env;
 exports.isDev = isDev;
-exports.isTest = isTest;
 exports.isProd = isProd;
+exports.isTest = isTest;
+exports.tasks = tasks;
 exports.workflow = workflow;
-exports.browserslist = browserslist;
+exports.workflowName = workflowName;

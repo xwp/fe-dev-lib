@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-import { sortTasks } from './sort-tasks';
+import { sortTasks } from '../src/utils/sort-tasks';
 
 describe( 'sortTasks()', () => {
 	test( 'returns before and main tasks', () => {

@@ -5,19 +5,21 @@ import imagemin from 'gulp-imagemin';
 import { tasks, isDev } from '../utils/get-config';
 import TaskHelper from '../utils/TaskHelper';
 
-const task = new TaskHelper({
-	name: 'images',
-	requiredPaths: [ 'src', 'dest' ],
-	config: tasks
-});
+if ( tasks.images ) {
+	const task = new TaskHelper( {
+		name:          'images',
+		requiredPaths: [ 'src', 'dest' ],
+		config:        tasks.images
+	} );
 
-gulp.task( task.name, done => {
-	if ( ! task.isValid() ) {
-		done();
-	}
+	gulp.task( task.name, done => {
+		if ( ! task.isValid() ) {
+			done();
+		}
 
-	return task.start()
-		.pipe( gulpIf( isDev, cache( task.cacheName, { optimizeMemory: false }) ) )
-		.pipe( imagemin() )
-		.pipe( task.end() );
-});
+		return task.start()
+			.pipe( gulpIf( isDev, cache( task.cacheName, { optimizeMemory: false } ) ) )
+			.pipe( imagemin() )
+			.pipe( task.end() );
+	} );
+}

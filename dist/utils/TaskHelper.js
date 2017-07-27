@@ -29,21 +29,18 @@ var TaskHelper = function () {
 		    _ref$requiredPaths = _ref.requiredPaths,
 		    requiredPaths = _ref$requiredPaths === undefined ? [] : _ref$requiredPaths,
 		    _ref$config = _ref.config,
-		    config = _ref$config === undefined ? null : _ref$config,
-		    _ref$configSlug = _ref.configSlug,
-		    configSlug = _ref$configSlug === undefined ? '' : _ref$configSlug;
+		    config = _ref$config === undefined ? null : _ref$config;
 
 		_classCallCheck(this, TaskHelper);
 
 		if (null === config) {
-			_gulpUtil2.default.log(_gulpUtil2.default.colors.red('The task template is missing a configuration.'));
+			_gulpUtil2.default.log(_gulpUtil2.default.colors.red('The task \'' + name + '\' template is missing a configuration.'));
 			return;
 		}
 
 		this._name = name;
 		this._requiredPaths = requiredPaths;
 		this._config = config;
-		this._configSlug = '' === configSlug ? name : configSlug;
 	}
 
 	_createClass(TaskHelper, [{
@@ -68,17 +65,12 @@ var TaskHelper = function () {
 	}, {
 		key: 'config',
 		get: function get() {
-			return '' === this.configSlug ? this._config : this._config[this.configSlug];
+			return this._config;
 		}
 	}, {
 		key: 'name',
 		get: function get() {
 			return this._name;
-		}
-	}, {
-		key: 'configSlug',
-		get: function get() {
-			return this._configSlug;
 		}
 	}, {
 		key: 'requiredPaths',
