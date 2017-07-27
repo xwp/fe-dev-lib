@@ -11,12 +11,22 @@
 		],
 		"enableLinter": true,
 		"postcssProcessors": {
-			"cssnext": true,
-			"autoprefixer": {
-				"minPixelValue": 0
+			"cssnext": {
+				"warnForDuplicates": false
 			},
-			"pxtorem": true,
-			"assets": true
+			"autoprefixer": {},
+			"pxtorem": {
+				"rootValue": 16,
+				"unitPrecision": 5,
+				"propList": [ "*" ],
+				"selectorBlackList": [],
+				"replace": true,
+				"mediaQuery": true,
+				"minPixelValue": 2
+			},
+			"assets": {
+				"relative": true
+			}
 		}
 	},
 	"js": {
