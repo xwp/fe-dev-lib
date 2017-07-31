@@ -9,7 +9,7 @@ export const getTasks = function() {
 	let tasksList, gulpTasks;
 
 	// Load all Gulp tasks from `tasks` dir.
-	requireDir( path.resolve( 'tasks' ) );
+	requireDir( path.resolve( __dirname, '../tasks' ) );
 
 	// Filter the list to only contain existing Gulp tasks.
 	tasksList = Object.keys( tasks ).filter( task => {
