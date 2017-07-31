@@ -72,6 +72,7 @@
 		"no-fallthrough": [2],
 		"no-floating-decimal": [2],
 		"no-func-assign": [2],
+		"no-global-assign": [2],
 		"no-implicit-coercion": [2],
 		"no-implicit-globals": [0],
 		"no-implied-eval": [2],
