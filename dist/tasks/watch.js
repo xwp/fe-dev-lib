@@ -14,7 +14,7 @@ if (_getConfig.tasks.watch && 0 < _getConfig.tasks.watch.length) {
 	_gulp2.default.task('watch', function () {
 
 		// Omit some tasks, e.g. `js` is already watched by Webpack.
-		var ignoredTasks = ['js', 'js-lint', 'clean'],
+		var ignoredTasks = ['clean'],
 		    filteredTasks = _getConfig.tasks.watch.filter(function (task) {
 			return !ignoredTasks.includes(task);
 		});

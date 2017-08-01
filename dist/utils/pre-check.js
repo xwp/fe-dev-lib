@@ -14,7 +14,7 @@ var _getConfig = require('./get-config');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var preCheck = exports.preCheck = function preCheck() {
-	if (undefined === _getConfig.workflowName) {
+	if (undefined !== _getConfig.workflowName) {
 		_gulpUtil2.default.log('Using \'' + _gulpUtil2.default.colors.yellow(_getConfig.workflowName) + '\' workflow...');
 	}
 	if (undefined !== _getConfig.env) {

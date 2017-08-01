@@ -6,6 +6,10 @@ var _gulp = require('gulp');
 
 var _gulp2 = _interopRequireDefault(_gulp);
 
+var _gulpUtil = require('gulp-util');
+
+var _gulpUtil2 = _interopRequireDefault(_gulpUtil);
+
 var _path = require('path');
 
 var _webpack = require('webpack');
@@ -30,55 +34,66 @@ var _browserslist = require('browserslist');
 
 var _browserslist2 = _interopRequireDefault(_browserslist);
 
+var _redent = require('redent');
+
+var _redent2 = _interopRequireDefault(_redent);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 if (_getConfig.tasks.js) {
+	var redentCount = 11;
+
 	var fn = function fn() {
-		var esLintOptions = {},
-		    babelifyOptions = void 0,
-		    webpackConfig = void 0;
 		var paths = _getConfig.tasks.js;
-
-		babelifyOptions = {
-			presets: [['env', {
-				targets: {
-					browsers: (0, _browserslist2.default)()
-				}
-			}]]
-		};
-
-		// Avoid linting for the test environment
-		if (_getConfig.isDev || _getConfig.isProd) {
-			esLintOptions = {
-				test: /\.js$/,
-				loader: 'eslint-loader',
-				exclude: /(node_modules)/
-			};
-		}
-
-		webpackConfig = {
+		var webpackConfig = {
 			context: (0, _path.resolve)(_getConfig.cwd, paths.base),
 			entry: paths.entry,
+			cache: true,
+
 			output: {
 				filename: '[name].js',
 				pathinfo: _getConfig.isDev
 			},
-			devtool: _getConfig.isProd ? 'source-map' : 'eval',
+
+			stats: {
+				colors: true,
+				modules: true,
+				version: false
+			},
+
+			devtool: _getConfig.isProd ? 'source-map' : 'inline-source-map',
+
 			module: {
-				rules: [esLintOptions],
-				loaders: [{
+				rules: [{
 					test: /\.js$/,
-					loader: 'babel-loader',
-					options: babelifyOptions,
-					exclude: /node_modules/
+					exclude: /node_modules/,
+					use: [{
+						loader: 'babel-loader',
+						options: {
+							presets: [['env', {
+								targets: {
+									browsers: (0, _browserslist2.default)()
+								}
+							}]]
+						}
+					}, {
+						loader: 'eslint-loader'
+					}]
 				}]
 			},
-			plugins: (0, _webpackConfigUtils.removeEmpty)([new _progressBarWebpackPlugin2.default(), _getConfig.isProd ? new _webpack2.default.optimize.UglifyJsPlugin() : undefined]),
-			watch: true,
-			cache: true
+
+			plugins: (0, _webpackConfigUtils.removeEmpty)([new _progressBarWebpackPlugin2.default({
+				width: 8,
+				complete: '•',
+				incomplete: _gulpUtil2.default.colors.grey('·'),
+				format: (0, _redent2.default)('[:bar] ' + _gulpUtil2.default.colors.green(':percent') + ' (:elapsed seconds)', 0),
+				summary: false
+			}), _getConfig.isProd ? new _webpack2.default.optimize.UglifyJsPlugin() : undefined])
 		};
 
-		return _gulp2.default.src((0, _path.resolve)(_getConfig.cwd, paths.base)).pipe((0, _gulpPlumber2.default)()).pipe((0, _webpackStream2.default)(webpackConfig, _webpack2.default)).pipe(_gulpPlumber2.default.stop()).pipe(_gulp2.default.dest((0, _path.resolve)(_getConfig.cwd, paths.dest)));
+		return _gulp2.default.src((0, _path.resolve)(_getConfig.cwd, paths.base)).pipe((0, _gulpPlumber2.default)()).pipe((0, _webpackStream2.default)(webpackConfig, _webpack2.default, function (err, stats) {
+			return _gulpUtil2.default.log((0, _redent2.default)(stats.toString(webpackConfig.stats), redentCount).trim());
+		})).pipe(_gulpPlumber2.default.stop()).pipe(_gulp2.default.dest((0, _path.resolve)(_getConfig.cwd, paths.dest)));
 	};
 
 	fn.displayName = 'js-compile';

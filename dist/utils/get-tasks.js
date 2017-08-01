@@ -17,6 +17,10 @@ var _requireDir = require('require-dir');
 
 var _requireDir2 = _interopRequireDefault(_requireDir);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 var _getConfig = require('./get-config');
 
 var _sortTasks = require('./sort-tasks');
@@ -28,7 +32,7 @@ var getTasks = exports.getTasks = function getTasks() {
 	    gulpTasks = void 0;
 
 	// Load all Gulp tasks from `tasks` dir.
-	(0, _requireDir2.default)('../tasks');
+	(0, _requireDir2.default)(_path2.default.resolve(__dirname, '../tasks'));
 
 	// Filter the list to only contain existing Gulp tasks.
 	tasksList = Object.keys(_getConfig.tasks).filter(function (task) {
