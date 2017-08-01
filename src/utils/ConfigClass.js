@@ -65,7 +65,7 @@ export default class ConfigClass {
 	}
 
 	get tasks() {
-		let tasks = this.workflow.tasks;
+		let tasks = this.workflow.tasks || {};
 
 		if ( this.schema ) {
 			for ( let name in this.schema ) {

@@ -1,6 +1,7 @@
 import gulp from 'gulp';
 import gutil from 'gulp-util';
 import requireDir from 'require-dir';
+import path from 'path';
 import { tasks } from './get-config';
 import { sortTasks } from './sort-tasks';
 
@@ -8,7 +9,7 @@ export const getTasks = function() {
 	let tasksList, gulpTasks;
 
 	// Load all Gulp tasks from `tasks` dir.
-	requireDir( '../tasks' );
+	requireDir( path.resolve( __dirname, '../tasks' ) );
 
 	// Filter the list to only contain existing Gulp tasks.
 	tasksList = Object.keys( tasks ).filter( task => {
