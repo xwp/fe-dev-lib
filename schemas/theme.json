@@ -30,6 +30,7 @@
 		}
 	},
 	"js": {
+		"src": "src/js/**/*.js",
 		"base": "src/js",
 		"dest": "dist/js",
 		"entry": {
@@ -46,5 +47,5 @@
 		"base": "src/fonts",
 		"dest": "dist/fonts"
 	},
-	"watch": [ "css", "copy", "images" ]
+	"watch": [ "css", "js", "copy", "images" ]
 }
