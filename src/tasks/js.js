@@ -51,7 +51,11 @@ if ( tasks.js ) {
 								] ]
 							}
 						}, {
-							loader: 'eslint-loader'
+							loader: 'eslint-loader',
+							options: {
+								failOnError: isProd ? true : false,
+								emitWarning: true
+							}
 						} ]
 					}
 				]
