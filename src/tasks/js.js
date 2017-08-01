@@ -18,7 +18,6 @@ if ( tasks.js ) {
 		const webpackConfig = {
 			context: resolve( cwd, paths.base ),
 			entry: paths.entry,
-			watch: true,
 			cache: true,
 
 			output: {
