@@ -77,7 +77,11 @@ if (_getConfig.tasks.js) {
 							}]]
 						}
 					}, {
-						loader: 'eslint-loader'
+						loader: 'eslint-loader',
+						options: {
+							failOnError: _getConfig.isProd ? true : false,
+							emitWarning: true
+						}
 					}]
 				}]
 			},
