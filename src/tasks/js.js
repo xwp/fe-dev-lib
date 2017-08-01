@@ -1,5 +1,6 @@
 import { tasks, isProd, isDev, cwd } from '../utils/get-config';
 import gulp from 'gulp';
+import gutil from 'gulp-util';
 import { resolve } from 'path';
 import webpack from 'webpack';
 import webpackStream from 'webpack-stream';
@@ -7,64 +8,76 @@ import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 import { removeEmpty } from 'webpack-config-utils';
 import plumber from 'gulp-plumber';
 import browserslist from 'browserslist';
+import redent from 'redent';
 
 if ( tasks.js ) {
+	const redentCount = 11;
+
 	let fn = function() {
-		let esLintOptions = {},
-			babelifyOptions, webpackConfig;
 		const paths = tasks.js;
-
-		babelifyOptions = {
-			presets: [
-				[ 'env', {
-					targets: {
-						browsers: browserslist()
-					}
-				} ]
-			]
-		};
-
-		// Avoid linting for the test environment
-		if ( isDev || isProd ) {
-			esLintOptions = {
-				test: /\.js$/,
-				loader: 'eslint-loader',
-				exclude: /(node_modules)/
-			};
-		}
-
-		webpackConfig = {
+		const webpackConfig = {
 			context: resolve( cwd, paths.base ),
 			entry: paths.entry,
+			cache: true,
+
 			output: {
 				filename: '[name].js',
 				pathinfo: isDev
 			},
-			devtool: isProd ? 'source-map' : 'eval',
+
+			stats: {
+				colors: true,
+				modules: true,
+				version: false
+			},
+
+			devtool: isProd ? 'source-map' : 'inline-source-map',
+
 			module: {
 				rules: [
-					esLintOptions
-				],
-				loaders: [
 					{
 						test: /\.js$/,
-						loader: 'babel-loader',
-						options: babelifyOptions,
-						exclude: /node_modules/
+						exclude: /node_modules/,
+						use: [ {
+							loader: 'babel-loader',
+							options: {
+								presets: [ [
+									'env',
+									{
+										targets: {
+											browsers: browserslist()
+										}
+									}
+								] ]
+							}
+						}, {
+							loader: 'eslint-loader',
+							options: {
+								failOnError: isProd ? true : false,
+								emitWarning: true
+							}
+						} ]
 					}
 				]
 			},
+
 			plugins: removeEmpty([
-				new ProgressBarPlugin(),
+
+				new ProgressBarPlugin({
+					width: 8,
+					complete: '•',
+					incomplete: gutil.colors.grey( '·' ),
+					format: redent( `[:bar] ${gutil.colors.green( ':percent' )} (:elapsed seconds)`, 0 ),
+					summary: false
+				}),
+
 				isProd ? new webpack.optimize.UglifyJsPlugin() : undefined
-			]),
-			watch: true,
-			cache: true
+			])
 		};
 
 		return gulp.src( resolve( cwd, paths.base ) )
 			.pipe( plumber() )
-			.pipe( webpackStream( webpackConfig, webpack ) )
+			.pipe( webpackStream( webpackConfig, webpack, ( err, stats ) =>  gutil.log( redent( stats.toString( webpackConfig.stats ), redentCount ).trim() ) ) )
 			.pipe( plumber.stop() )
 			.pipe( gulp.dest( resolve( cwd, paths.dest ) ) );
 	};

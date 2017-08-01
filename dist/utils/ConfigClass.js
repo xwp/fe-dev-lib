@@ -97,7 +97,7 @@ var ConfigClass = function () {
 	}, {
 		key: 'tasks',
 		get: function get() {
-			var tasks = this.workflow.tasks;
+			var tasks = this.workflow.tasks || {};
 
 			if (this.schema) {
 				for (var name in this.schema) {
