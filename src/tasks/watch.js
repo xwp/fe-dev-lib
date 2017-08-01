@@ -6,7 +6,7 @@ if ( tasks.watch && 0 < tasks.watch.length ) {
 	gulp.task( 'watch', () => {
 
 		// Omit some tasks, e.g. `js` is already watched by Webpack.
-		const ignoredTasks = [ 'js', 'js-lint', 'clean' ],
+		const ignoredTasks = [ 'clean' ],
 			filteredTasks = tasks.watch.filter( task => ! ignoredTasks.includes( task ) );
 
 		filteredTasks.forEach( taskSlug => {
