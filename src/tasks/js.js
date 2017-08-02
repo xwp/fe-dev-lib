@@ -4,7 +4,6 @@ import gutil from 'gulp-util';
 import { resolve } from 'path';
 import webpack from 'webpack';
 import webpackStream from 'webpack-stream';
-import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 import { removeEmpty } from 'webpack-config-utils';
 import plumber from 'gulp-plumber';
 import browserslist from 'browserslist';
@@ -62,22 +61,23 @@ if ( tasks.js ) {
 			},
 
 			plugins: removeEmpty([
-
-				new ProgressBarPlugin({
-					width: 8,
-					complete: '•',
-					incomplete: gutil.colors.grey( '·' ),
-					format: redent( `[:bar] ${gutil.colors.green( ':percent' )} (:elapsed seconds)`, 0 ),
-					summary: false
-				}),
-
 				isProd ? new webpack.optimize.UglifyJsPlugin() : undefined
 			])
 		};
 
 		return gulp.src( resolve( cwd, paths.base ) )
 			.pipe( plumber() )
-			.pipe( webpackStream( webpackConfig, webpack, ( err, stats ) =>  gutil.log( redent( stats.toString( webpackConfig.stats ), redentCount ).trim() ) ) )
+			.pipe( webpackStream(
+				webpackConfig,
+				webpack,
+				( err, stats ) => {
+					if ( err ) {
+						gutil.log( gutil.colors.red( err ) );
+					} else {
+						gutil.log( `Webpack Build Complete\n${redent( stats.toString( webpackConfig.stats ), redentCount )}` );
+					}
+				}
+			) )
 			.pipe( plumber.stop() )
 			.pipe( gulp.dest( resolve( cwd, paths.dest ) ) );
 	};
