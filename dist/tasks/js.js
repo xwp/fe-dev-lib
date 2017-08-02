@@ -20,10 +20,6 @@ var _webpackStream = require('webpack-stream');
 
 var _webpackStream2 = _interopRequireDefault(_webpackStream);
 
-var _progressBarWebpackPlugin = require('progress-bar-webpack-plugin');
-
-var _progressBarWebpackPlugin2 = _interopRequireDefault(_progressBarWebpackPlugin);
-
 var _webpackConfigUtils = require('webpack-config-utils');
 
 var _gulpPlumber = require('gulp-plumber');
@@ -86,13 +82,7 @@ if (_getConfig.tasks.js) {
 				}]
 			},
 
-			plugins: (0, _webpackConfigUtils.removeEmpty)([new _progressBarWebpackPlugin2.default({
-				width: 8,
-				complete: '•',
-				incomplete: _gulpUtil2.default.colors.grey('·'),
-				format: (0, _redent2.default)('[:bar] ' + _gulpUtil2.default.colors.green(':percent') + ' (:elapsed seconds)', 0),
-				summary: false
-			}), _getConfig.isProd ? new _webpack2.default.optimize.UglifyJsPlugin() : undefined])
+			plugins: (0, _webpackConfigUtils.removeEmpty)([_getConfig.isProd ? new _webpack2.default.optimize.UglifyJsPlugin() : undefined])
 		};
 
 		return _gulp2.default.src((0, _path.resolve)(_getConfig.cwd, paths.base)).pipe((0, _gulpPlumber2.default)()).pipe((0, _webpackStream2.default)(webpackConfig, _webpack2.default, function (err, stats) {
