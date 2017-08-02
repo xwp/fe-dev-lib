@@ -77,7 +77,17 @@ if ( tasks.js ) {
 
 		return gulp.src( resolve( cwd, paths.base ) )
 			.pipe( plumber() )
-			.pipe( webpackStream( webpackConfig, webpack, ( err, stats ) => err ? gutil.log( err ) : gutil.log( redent( stats.toString( webpackConfig.stats ), redentCount ).trim() ) ) )
+			.pipe( webpackStream(
+				webpackConfig,
+				webpack,
+				( err, stats ) => {
+					if ( err ) {
+						gutil.log( gutil.colors.red( err ) );
+					} else {
+						gutil.log( `Webpack Build Complete\n${redent( stats.toString( webpackConfig.stats ), redentCount )}` );
+					}
+				}
+			) )
 			.pipe( plumber.stop() )
 			.pipe( gulp.dest( resolve( cwd, paths.dest ) ) );
 	};
