@@ -77,7 +77,7 @@ if ( tasks.js ) {
 
 		return gulp.src( resolve( cwd, paths.base ) )
 			.pipe( plumber() )
-			.pipe( webpackStream( webpackConfig, webpack, ( err, stats ) =>  gutil.log( redent( stats.toString( webpackConfig.stats ), redentCount ).trim() ) ) )
+			.pipe( webpackStream( webpackConfig, webpack, ( err, stats ) => err ? gutil.log( err ) : gutil.log( redent( stats.toString( webpackConfig.stats ), redentCount ).trim() ) ) )
 			.pipe( plumber.stop() )
 			.pipe( gulp.dest( resolve( cwd, paths.dest ) ) );
 	};
