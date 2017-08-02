@@ -96,7 +96,11 @@ if (_getConfig.tasks.js) {
 		};
 
 		return _gulp2.default.src((0, _path.resolve)(_getConfig.cwd, paths.base)).pipe((0, _gulpPlumber2.default)()).pipe((0, _webpackStream2.default)(webpackConfig, _webpack2.default, function (err, stats) {
-			return _gulpUtil2.default.log((0, _redent2.default)(stats.toString(webpackConfig.stats), redentCount).trim());
+			if (err) {
+				_gulpUtil2.default.log(_gulpUtil2.default.colors.red(err));
+			} else {
+				_gulpUtil2.default.log('Webpack Build Complete\n' + (0, _redent2.default)(stats.toString(webpackConfig.stats), redentCount));
+			}
 		})).pipe(_gulpPlumber2.default.stop()).pipe(_gulp2.default.dest((0, _path.resolve)(_getConfig.cwd, paths.dest)));
 	};
 
