@@ -55,7 +55,10 @@ var TaskHelper = function () {
 	}, {
 		key: 'start',
 		value: function start() {
-			return _gulp2.default.src(this.src, { base: this.base });
+			return _gulp2.default.src(this.src, {
+				base: this.base,
+				cwd: _getConfig.cwd
+			});
 		}
 	}, {
 		key: 'end',
@@ -89,10 +92,7 @@ var TaskHelper = function () {
 	}, {
 		key: 'src',
 		get: function get() {
-			var srcList = Array.isArray(this.config.src) ? this.config.src : [this.config.src];
-			return srcList.map(function (path) {
-				return (0, _path.join)(_getConfig.cwd, path);
-			});
+			return this.config.src;
 		}
 	}, {
 		key: 'base',

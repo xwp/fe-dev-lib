@@ -1,5 +1,5 @@
 import gulp from 'gulp';
-import { tasks } from '../utils/get-config';
+import { cwd, tasks } from '../utils/get-config';
 import del from 'del';
 import TaskHelper from '../utils/TaskHelper';
 
@@ -12,7 +12,7 @@ if ( tasks.clean ) {
 
 	gulp.task( task.name, done => {
 		if ( task.isValid() ) {
-			del( task.src ).then( () => done() );
+			del( task.src, { cwd } ).then( () => done() );
 		} else {
 			done();
 		}
