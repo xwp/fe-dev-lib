@@ -16,7 +16,11 @@ if ( tasks.watch && 0 < tasks.watch.length ) {
 				return;
 			}
 
-			gulp.watch( join( cwd, task.src ), gulp.parallel( taskSlug ) );
+			if ( Array.isArray( task.src ) ) {
+				task.src.map( src => gulp.watch( join( cwd, src ), gulp.parallel( taskSlug ) ) );
+			} else {
+				gulp.watch( join( cwd, task.src ), gulp.parallel( taskSlug ) );
+			}
 		});
 	});
 }

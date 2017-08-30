@@ -26,7 +26,13 @@ if (_getConfig.tasks.watch && 0 < _getConfig.tasks.watch.length) {
 				return;
 			}
 
-			_gulp2.default.watch((0, _path.join)(_getConfig.cwd, task.src), _gulp2.default.parallel(taskSlug));
+			if (Array.isArray(task.src)) {
+				task.src.map(function (src) {
+					return _gulp2.default.watch((0, _path.join)(_getConfig.cwd, src), _gulp2.default.parallel(taskSlug));
+				});
+			} else {
+				_gulp2.default.watch((0, _path.join)(_getConfig.cwd, task.src), _gulp2.default.parallel(taskSlug));
+			}
 		});
 	});
 }
