@@ -144,6 +144,33 @@ Schemas are predefined templates located in `fe-dev-lib/schemas`.
 ### `js`
 ### `watch`
 
+## Custom tasks definition
+
+You can specify a custom tasks in your `package.json` file like this:
+
+```
+"your-workflow-name": {
+  "tasks": {
+    "custom-task-name": {
+      "taskSrc": "./path/to/custom/tasks/task.js"
+    }
+  }
+}
+```
+
+The `task.js` file should contain the **function** itself, not the actual Gulp task, e.g.:
+
+```
+module.exports = function( done ) {
+  console.log( 'Hello World!' );
+  done();
+};
+```
+
+You are free to `require()` Gulp and any other packages as you would do in the built-in task definition (all packages are in the `dependencies` list in the repo's `package.json` so they are be default available in the project where `fe-dev-lib` is used).
+
+**Note:** since the custom task is not transpiled by default with Babel, you should either use Node-compliant syntax or set up Babel transpile task directly in your project.
+
 ## [Changelog](CHANGELOG.md)
 
 ## [License](LICENSE)
