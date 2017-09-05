@@ -1,7 +1,7 @@
 import gulp from 'gulp';
 import gutil from 'gulp-util';
 import { join } from 'path';
-import { cwd } from './get-config';
+import { cwd } from '../utils/config';
 
 export default class TaskHelper {
 	constructor({ name = '', requiredPaths = [], config = null }) {

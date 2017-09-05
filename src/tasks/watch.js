@@ -1,5 +1,5 @@
 import gulp from 'gulp';
-import { tasks, cwd } from '../utils/get-config';
+import { tasks, cwd } from '../utils/config';
 import { join } from 'path';
 
 if ( tasks.watch && 0 < tasks.watch.length ) {

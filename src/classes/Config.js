@@ -83,10 +83,10 @@ export default class ConfigClass {
 			} else if ( undefined === defaultTask ) {
 
 				// No user defined task config - schema will be used instead.
-				defaultTask = {};
+				task = schemaTask;
+			} else {
+				task = Object.assign( {}, schemaTask, defaultTask );
 			}
-
-			task = Object.assign( {}, schemaTask, defaultTask );
 
 			// Remove null properties.
 			for ( let prop in task ) {

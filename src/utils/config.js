@@ -2,7 +2,7 @@ import fs from 'fs';
 import gutil from 'gulp-util';
 import yargs from 'yargs';
 import path from 'path';
-import ConfigClass from './ConfigClass';
+import Config from '../classes/Config';
 
 const configFile = path.resolve( './package.json' );
 let configJSON, config;
@@ -13,6 +13,6 @@ if ( ! fs.existsSync( configFile ) ) {
 }
 
 configJSON = JSON.parse( fs.readFileSync( configFile ) );
-config = new ConfigClass( configJSON.workflows, yargs.argv );
+config = new Config( configJSON.workflows, yargs.argv );
 
 export const { cwd, env, isDev, isProd, isTest, tasks, workflow, workflowName } = config;
