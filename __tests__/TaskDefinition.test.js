@@ -1,10 +1,12 @@
 /* eslint-env jest */
 
-import { sortTasks } from '../src/utils/sort-tasks';
+import TaskDefinition from '../src/classes/TaskDefinition';
 
-describe( 'sortTasks()', () => {
+describe( 'TaskDefinition sortTasks()', () => {
+	const taskDefinition = new TaskDefinition({});
+
 	test( 'returns before and main tasks', () => {
-		expect( sortTasks( [ 'clean', 'js', 'css' ] ) ).toEqual( {
+		expect( taskDefinition.sortTasks( [ 'clean', 'js', 'css' ] ) ).toEqual( {
 			before: [ 'clean' ],
 			tasks:  [ 'js', 'css' ],
 			after:  []
@@ -12,7 +14,7 @@ describe( 'sortTasks()', () => {
 	} );
 
 	test( 'returns before, after and main tasks', () => {
-		expect( sortTasks( [ 'watch', 'clean', 'js', 'css' ] ) ).toEqual( {
+		expect( taskDefinition.sortTasks( [ 'watch', 'clean', 'js', 'css' ] ) ).toEqual( {
 			before: [ 'clean' ],
 			tasks:  [ 'js', 'css' ],
 			after:  [ 'watch' ]
@@ -20,7 +22,7 @@ describe( 'sortTasks()', () => {
 	} );
 
 	test( 'returns after and main tasks', () => {
-		expect( sortTasks( [ 'watch', 'js', 'css' ] ) ).toEqual( {
+		expect( taskDefinition.sortTasks( [ 'watch', 'js', 'css' ] ) ).toEqual( {
 			before: [],
 			tasks:  [ 'js', 'css' ],
 			after:  [ 'watch' ]
@@ -28,7 +30,7 @@ describe( 'sortTasks()', () => {
 	} );
 
 	test( 'returns after tasks only', () => {
-		expect( sortTasks( [ 'watch' ] ) ).toEqual( {
+		expect( taskDefinition.sortTasks( [ 'watch' ] ) ).toEqual( {
 			before: [],
 			tasks:  [],
 			after:  [ 'watch' ]
@@ -36,7 +38,7 @@ describe( 'sortTasks()', () => {
 	} );
 
 	test( 'returns main tasks only', () => {
-		expect( sortTasks( [ 'css' ] ) ).toEqual( {
+		expect( taskDefinition.sortTasks( [ 'css' ] ) ).toEqual( {
 			before: [],
 			tasks:  [ 'css' ],
 			after:  []
@@ -44,7 +46,7 @@ describe( 'sortTasks()', () => {
 	} );
 
 	test( 'returns before tasks only', () => {
-		expect( sortTasks( [ 'clean' ] ) ).toEqual( {
+		expect( taskDefinition.sortTasks( [ 'clean' ] ) ).toEqual( {
 			before: [ 'clean' ],
 			tasks:  [],
 			after:  []
@@ -52,7 +54,7 @@ describe( 'sortTasks()', () => {
 	} );
 
 	test( 'specified tasks are ignored', () => {
-		expect( sortTasks( [ 'watch', 'clean', 'js', 'css' ], [ 'css' ] ) ).toEqual( {
+		expect( taskDefinition.sortTasks( [ 'watch', 'clean', 'js', 'css' ], [ 'css' ] ) ).toEqual( {
 			before: [ 'clean' ],
 			tasks:  [ 'js' ],
 			after:  [ 'watch' ]
@@ -60,7 +62,7 @@ describe( 'sortTasks()', () => {
 	} );
 
 	test( 'specified tasks are ignored', () => {
-		expect( sortTasks( [ 'watch', 'clean', 'js', 'css' ], [ 'clean' ] ) ).toEqual( {
+		expect( taskDefinition.sortTasks( [ 'watch', 'clean', 'js', 'css' ], [ 'clean' ] ) ).toEqual( {
 			before: [],
 			tasks:  [ 'js', 'css' ],
 			after:  [ 'watch' ]
@@ -68,7 +70,7 @@ describe( 'sortTasks()', () => {
 	} );
 
 	test( 'specified tasks are ignored', () => {
-		expect( sortTasks( [ 'watch', 'clean', 'js', 'css' ], [ 'watch' ] ) ).toEqual( {
+		expect( taskDefinition.sortTasks( [ 'watch', 'clean', 'js', 'css' ], [ 'watch' ] ) ).toEqual( {
 			before: [ 'clean' ],
 			tasks:  [ 'js', 'css' ],
 			after:  []
