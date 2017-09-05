@@ -1,6 +1,6 @@
 {
   "name": "fe-dev-lib",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Common tools to facilitate the front-end development of WordPress themes and plugins",
   "engines": {
     "node": ">=6.11.x"
