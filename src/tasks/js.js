@@ -1,4 +1,4 @@
-import { tasks, isProd, isDev, cwd } from '../utils/get-config';
+import { tasks, isProd, isDev, cwd } from '../utils/config';
 import gulp from 'gulp';
 import gutil from 'gulp-util';
 import { resolve } from 'path';

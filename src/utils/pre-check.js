@@ -1,5 +1,5 @@
 import gutil from 'gulp-util';
-import { workflowName, env } from './get-config';
+import { workflowName, env } from './config';
 
 export const preCheck = function() {
 	if ( undefined !== workflowName ) {

@@ -1,7 +1,7 @@
 import gulp from 'gulp';
-import { cwd, tasks } from '../utils/get-config';
+import { cwd, tasks } from '../utils/config';
 import del from 'del';
-import TaskHelper from '../utils/TaskHelper';
+import TaskHelper from '../classes/TaskHelper';
 
 if ( tasks.clean ) {
 	const task = new TaskHelper( {

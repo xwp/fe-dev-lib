@@ -1,9 +1,9 @@
 import gulp from 'gulp';
 import cache from 'gulp-cached';
-import { tasks, isDev, isProd } from '../utils/get-config';
+import { tasks, isDev, isProd } from '../utils/config';
 import eslint from 'gulp-eslint';
 import gulpIf from 'gulp-if';
-import TaskHelper from '../utils/TaskHelper';
+import TaskHelper from '../classes/TaskHelper';
 
 if ( tasks.js ) {
 	const task = new TaskHelper( {

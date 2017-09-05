@@ -97,24 +97,37 @@ var ConfigClass = function () {
 	}, {
 		key: 'tasks',
 		get: function get() {
-			var tasks = this.workflow.tasks || {};
+			if (!this.schema) {
+				return this.workflow.tasks;
+			}
 
-			if (this.schema) {
-				for (var name in this.schema) {
-					if (undefined === tasks[name]) {
-						tasks[name] = this.schema[name];
-					} else if (null === tasks[name]) {
-						delete tasks[name];
-					} else {
-						tasks[name] = Object.assign({}, this.schema[name], tasks[name]);
-					}
+			var tasks = {};
 
-					for (var prop in tasks[name]) {
-						if (null === tasks[name][prop]) {
-							delete tasks[name][prop];
-						}
+			for (var name in this.schema) {
+				var task = void 0,
+				    schemaTask = this.schema[name],
+				    defaultTask = this.workflow.tasks[name];
+
+				if (null === defaultTask) {
+
+					// Do not include the task if it was nulled by the user.
+					continue;
+				} else if (undefined === defaultTask) {
+
+					// No user defined task config - schema will be used instead.
+					task = schemaTask;
+				} else {
+					task = Object.assign({}, schemaTask, defaultTask);
+				}
+
+				// Remove null properties.
+				for (var prop in task) {
+					if (null === task[prop]) {
+						delete task[prop];
 					}
 				}
+
+				tasks[name] = task;
 			}
 
 			return tasks;
