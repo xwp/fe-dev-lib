@@ -21,9 +21,9 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
-var _ConfigClass = require('./ConfigClass');
+var _Config = require('../classes/Config');
 
-var _ConfigClass2 = _interopRequireDefault(_ConfigClass);
+var _Config2 = _interopRequireDefault(_Config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37,7 +37,7 @@ if (!_fs2.default.existsSync(configFile)) {
 }
 
 configJSON = JSON.parse(_fs2.default.readFileSync(configFile));
-config = new _ConfigClass2.default(configJSON.workflows, _yargs2.default.argv);
+config = new _Config2.default(configJSON.workflows, _yargs2.default.argv);
 
 var _config = config,
     cwd = _config.cwd,

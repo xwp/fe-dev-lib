@@ -16,7 +16,7 @@ var _gulpUtil2 = _interopRequireDefault(_gulpUtil);
 
 var _path = require('path');
 
-var _getConfig = require('./get-config');
+var _config = require('../utils/config');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -57,13 +57,13 @@ var TaskHelper = function () {
 		value: function start() {
 			return _gulp2.default.src(this.src, {
 				base: this.base,
-				cwd: _getConfig.cwd
+				cwd: _config.cwd
 			});
 		}
 	}, {
 		key: 'end',
 		value: function end() {
-			return _gulp2.default.dest(this.dest, { cwd: _getConfig.cwd });
+			return _gulp2.default.dest(this.dest, { cwd: _config.cwd });
 		}
 	}, {
 		key: 'config',
@@ -97,7 +97,7 @@ var TaskHelper = function () {
 	}, {
 		key: 'base',
 		get: function get() {
-			return undefined === this.config.base ? '' : (0, _path.join)(_getConfig.cwd, this.config.base);
+			return undefined === this.config.base ? '' : (0, _path.join)(_config.cwd, this.config.base);
 		}
 	}, {
 		key: 'dest',
