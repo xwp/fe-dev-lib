@@ -3,6 +3,7 @@ import gutil from 'gulp-util';
 import requireDir from 'require-dir';
 import path from 'path';
 import fs from 'fs';
+import { isProd } from '../utils/config';
 
 let instance = null;
 
@@ -60,20 +61,32 @@ export default class TaskDefinition {
 	}
 
 	/**
-	 * Split tasks into 3 categories: main tasks, before and after.
+	 * Remove ignored tasks.
 	 *
 	 * @param {Array} allTasks Set of all tasks
 	 * @param {Array} ignoredTasks Tasks to ignore
+	 * @return {Array} Tasks without ignored ones
+	 */
+	removeIgnoredTasks( allTasks, ignoredTasks ) {
+		let tasks = [];
+
+		if ( undefined !== ignoredTasks ) {
+			tasks = allTasks.filter( task => ! ignoredTasks.includes( task ) );
+		}
+
+		return tasks;
+	}
+
+	/**
+	 * Split tasks into 3 categories: main tasks, before and after.
+	 *
+	 * @param {Array} allTasks Set of all tasks
 	 * @return {{before: Array, tasks: Array, after: Array}} Categorized tasks object
 	 */
-	sortTasks( allTasks, ignoredTasks ) {
+	sortTasks( allTasks ) {
 		let tasks = allTasks,
 			before = [],
 			after = [];
-
-		if ( undefined !== ignoredTasks ) {
-			tasks = tasks.filter( task => ! ignoredTasks.includes( task ) );
-		}
 
 		if ( tasks.includes( 'clean' ) ) {
 			before.push( 'clean' );
@@ -88,12 +101,23 @@ export default class TaskDefinition {
 		return { before, tasks, after };
 	}
 
+	/**
+	 * Get a set of Gulp tasks.
+	 *
+	 * @return {Array} Gulp tasks.
+	 */
 	get gulpTasks() {
 		let gulpTasks = [],
-			tasks = this._tasks;
+			tasks = this._tasks,
+			ignoredTasks = [ 'js-lint' ];
+
+		if ( isProd ) {
+			ignoredTasks.push( 'watch' );
+		}
 
 		tasks = this.filterTasks( tasks );
-		tasks = this.sortTasks( tasks, [ 'js-lint' ] );
+		tasks = this.removeIgnoredTasks( tasks, ignoredTasks );
+		tasks = this.sortTasks( tasks );
 
 		if ( 0 < tasks.before.length ) {
 			gulpTasks.push( gulp.parallel( tasks.before ) );
