@@ -12,7 +12,7 @@ if ( tasks.watch && 0 < tasks.watch.length ) {
 		filteredTasks.forEach( taskSlug => {
 			const task = tasks[ taskSlug ];
 
-			if ( undefined === task.src ) {
+			if ( null === task || undefined === task || undefined === task.src ) {
 				return;
 			}
 
