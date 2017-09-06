@@ -22,7 +22,7 @@ if (_config.tasks.watch && 0 < _config.tasks.watch.length) {
 		filteredTasks.forEach(function (taskSlug) {
 			var task = _config.tasks[taskSlug];
 
-			if (undefined === task.src) {
+			if (null === task || undefined === task || undefined === task.src) {
 				return;
 			}
 
