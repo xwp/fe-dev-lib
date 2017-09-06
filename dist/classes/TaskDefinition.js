@@ -26,6 +26,8 @@ var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
 
+var _config = require('../utils/config');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -92,25 +94,40 @@ var TaskDefinition = function () {
 		}
 
 		/**
-   * Split tasks into 3 categories: main tasks, before and after.
+   * Remove ignored tasks.
    *
    * @param {Array} allTasks Set of all tasks
    * @param {Array} ignoredTasks Tasks to ignore
+   * @return {Array} Tasks without ignored ones
+   */
+
+	}, {
+		key: 'removeIgnoredTasks',
+		value: function removeIgnoredTasks(allTasks, ignoredTasks) {
+			var tasks = [];
+
+			if (undefined !== ignoredTasks) {
+				tasks = allTasks.filter(function (task) {
+					return !ignoredTasks.includes(task);
+				});
+			}
+
+			return tasks;
+		}
+
+		/**
+   * Split tasks into 3 categories: main tasks, before and after.
+   *
+   * @param {Array} allTasks Set of all tasks
    * @return {{before: Array, tasks: Array, after: Array}} Categorized tasks object
    */
 
 	}, {
 		key: 'sortTasks',
-		value: function sortTasks(allTasks, ignoredTasks) {
+		value: function sortTasks(allTasks) {
 			var tasks = allTasks,
 			    before = [],
 			    after = [];
-
-			if (undefined !== ignoredTasks) {
-				tasks = tasks.filter(function (task) {
-					return !ignoredTasks.includes(task);
-				});
-			}
 
 			if (tasks.includes('clean')) {
 				before.push('clean');
@@ -128,14 +145,27 @@ var TaskDefinition = function () {
 
 			return { before: before, tasks: tasks, after: after };
 		}
+
+		/**
+   * Get a set of Gulp tasks.
+   *
+   * @return {Array} Gulp tasks.
+   */
+
 	}, {
 		key: 'gulpTasks',
 		get: function get() {
 			var gulpTasks = [],
-			    tasks = this._tasks;
+			    tasks = this._tasks,
+			    ignoredTasks = ['js-lint'];
+
+			if (_config.isProd) {
+				ignoredTasks.push('watch');
+			}
 
 			tasks = this.filterTasks(tasks);
-			tasks = this.sortTasks(tasks, ['js-lint']);
+			tasks = this.removeIgnoredTasks(tasks, ignoredTasks);
+			tasks = this.sortTasks(tasks);
 
 			if (0 < tasks.before.length) {
 				gulpTasks.push(_gulp2.default.parallel(tasks.before));
