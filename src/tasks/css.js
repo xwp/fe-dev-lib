@@ -1,7 +1,7 @@
 import gulp from 'gulp';
 import cache from 'gulp-cached';
 import progeny from 'gulp-progeny';
-import { tasks, isDev } from '../utils/get-config';
+import { tasks, isDev } from '../utils/config';
 import sass from 'gulp-sass';
 import sourcemaps from 'gulp-sourcemaps';
 import gulpIf from 'gulp-if';
@@ -10,7 +10,7 @@ import cssnext from 'postcss-cssnext';
 import pxtorem from 'postcss-pxtorem';
 import autoprefixer from 'autoprefixer';
 import assets from 'postcss-assets';
-import TaskHelper from '../utils/TaskHelper';
+import TaskHelper from '../classes/TaskHelper';
 
 if ( tasks.css ) {
 	const task = new TaskHelper( {

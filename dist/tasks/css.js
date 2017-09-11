@@ -12,7 +12,7 @@ var _gulpProgeny = require('gulp-progeny');
 
 var _gulpProgeny2 = _interopRequireDefault(_gulpProgeny);
 
-var _getConfig = require('../utils/get-config');
+var _config = require('../utils/config');
 
 var _gulpSass = require('gulp-sass');
 
@@ -46,13 +46,13 @@ var _postcssAssets = require('postcss-assets');
 
 var _postcssAssets2 = _interopRequireDefault(_postcssAssets);
 
-var _TaskHelper = require('../utils/TaskHelper');
+var _TaskHelper = require('../classes/TaskHelper');
 
 var _TaskHelper2 = _interopRequireDefault(_TaskHelper);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-if (_getConfig.tasks.css) {
+if (_config.tasks.css) {
 	var getProcessors = function getProcessors() {
 		var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -77,7 +77,7 @@ if (_getConfig.tasks.css) {
 	var task = new _TaskHelper2.default({
 		name: 'css',
 		requiredPaths: ['src', 'dest'],
-		config: _getConfig.tasks.css
+		config: _config.tasks.css
 	});
 
 	var fn = function fn(done) {
@@ -88,13 +88,13 @@ if (_getConfig.tasks.css) {
 		return task.start()
 
 		// Caching and incremental building (progeny) in Gulp.
-		.pipe((0, _gulpIf2.default)(_getConfig.isDev, (0, _gulpCached2.default)(task.cacheName))).pipe((0, _gulpIf2.default)(_getConfig.isDev, (0, _gulpProgeny2.default)()))
+		.pipe((0, _gulpIf2.default)(_config.isDev, (0, _gulpCached2.default)(task.cacheName))).pipe((0, _gulpIf2.default)(_config.isDev, (0, _gulpProgeny2.default)()))
 
 		// Actual SASS compilation.
-		.pipe((0, _gulpIf2.default)(_getConfig.isDev, _gulpSourcemaps2.default.init())).pipe((0, _gulpSass2.default)({
+		.pipe((0, _gulpIf2.default)(_config.isDev, _gulpSourcemaps2.default.init())).pipe((0, _gulpSass2.default)({
 			includePaths: undefined !== task.config.includePaths ? task.config.includePaths : [],
-			outputStyle: _getConfig.isDev ? 'expanded' : 'compressed'
-		}).on('error', _gulpSass2.default.logError)).pipe((0, _gulpIf2.default)(task.config.postcssProcessors, (0, _gulpPostcss2.default)(getProcessors(task.config.postcssProcessors)))).pipe((0, _gulpIf2.default)(_getConfig.isDev, _gulpSourcemaps2.default.write(''))).pipe(task.end());
+			outputStyle: _config.isDev ? 'expanded' : 'compressed'
+		}).on('error', _gulpSass2.default.logError)).pipe((0, _gulpIf2.default)(task.config.postcssProcessors, (0, _gulpPostcss2.default)(getProcessors(task.config.postcssProcessors)))).pipe((0, _gulpIf2.default)(_config.isDev, _gulpSourcemaps2.default.write(''))).pipe(task.end());
 	};
 
 	fn.displayName = 'css-compile';

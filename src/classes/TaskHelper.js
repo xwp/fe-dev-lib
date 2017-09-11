@@ -1,7 +1,7 @@
 import gulp from 'gulp';
 import gutil from 'gulp-util';
 import { join } from 'path';
-import { cwd } from './get-config';
+import { cwd } from '../utils/config';
 
 export default class TaskHelper {
 	constructor({ name = '', requiredPaths = [], config = null }) {
@@ -32,8 +32,7 @@ export default class TaskHelper {
 	}
 
 	get src() {
-		const srcList = Array.isArray( this.config.src ) ? this.config.src : [ this.config.src ];
-		return srcList.map( path => join( cwd, path ) );
+		return this.config.src;
 	}
 
 	get base() {
@@ -57,7 +56,10 @@ export default class TaskHelper {
 	}
 
 	start() {
-		return gulp.src( this.src, { base: this.base } );
+		return gulp.src( this.src, {
+			base: this.base,
+			cwd
+		});
 	}
 
 	end() {

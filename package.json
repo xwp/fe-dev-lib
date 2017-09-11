@@ -1,13 +1,16 @@
 {
   "name": "fe-dev-lib",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Common tools to facilitate the front-end development of WordPress themes and plugins",
   "engines": {
     "node": ">=6.11.x"
   },
   "main": "dist/gulpfile.js",
   "scripts": {
-    "build": "./build.sh",
+    "babel": "$(npm bin)/babel",
+    "build": "node ./scripts/build",
+    "build:commit": "yarn run build && node ./scripts/commit",
+    "watch": "babel --watch src --out-dir dist --ignore gulpfile.babel.js",
     "test": "jest"
   },
   "repository": {
@@ -80,16 +83,20 @@
     "eslint-config-wordpress": "^2.0.0",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-compat": "^1.0.4",
+    "fs-extra": "^4.0.1",
     "gulp": "gulpjs/gulp.git#4.0",
     "gulp-cached": "^1.1.1",
     "gulp-eslint": "^4.0.0",
     "gulp-if": "^2.0.2",
     "gulp-imagemin": "^3.3.0",
+    "gulp-json-modify": "^1.0.2",
     "gulp-plumber": "^1.1.0",
     "gulp-postcss": "^7.0.0",
     "gulp-progeny": "^0.4.0",
+    "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.0",
+    "gulp-string-replace": "^0.4.0",
     "gulp-watch": "^4.3.11",
     "lodash": "^4.17.4",
     "postcss": "^6.0.8",
@@ -98,7 +105,7 @@
     "postcss-pxtorem": "^4.0.1",
     "postcss-reporter": "^4.0.0",
     "postcss-scss": "^1.0.2",
-    "progress-bar-webpack-plugin": "^1.10.0",
+    "redent": "^2.0.0",
     "require-dir": "^0.3.2",
     "stylelint": "^8.0.0",
     "stylelint-config-xwp": "github:xwp/stylelint-config-xwp",
@@ -108,6 +115,7 @@
     "yargs": "^8.0.2"
   },
   "devDependencies": {
-    "jest": "^20.0.4"
+    "jest": "^20.0.4",
+    "shelljs": "^0.7.8"
   }
 }

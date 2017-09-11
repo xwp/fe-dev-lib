@@ -1,12 +1,12 @@
 /* eslint-env jest */
 
-import ConfigClass from '../src/utils/ConfigClass';
+import Config from '../src/classes/Config';
 
-describe( 'ConfigClass env', () => {
-	let configProd = new ConfigClass( {}, { env: 'prod' } ),
-		configProduction = new ConfigClass( {}, { env: 'production' } ),
-		configDevelopment = new ConfigClass( {}, { env: 'development' } ),
-		configNoEnv = new ConfigClass();
+describe( 'Config env', () => {
+	let configProd = new Config( {}, { env: 'prod' } ),
+		configProduction = new Config( {}, { env: 'production' } ),
+		configDevelopment = new Config( {}, { env: 'development' } ),
+		configNoEnv = new Config();
 
 	it( 'is set to prod when env is prod', () => {
 		expect( configProd.env ).toBe( 'prod' );
@@ -43,9 +43,9 @@ describe( 'ConfigClass env', () => {
 	} );
 } );
 
-describe( 'ConfigClass workflowName', () => {
-	let configA = new ConfigClass( {}, { workflow: 'test-workflow' } ),
-		configB = new ConfigClass();
+describe( 'Config workflowName', () => {
+	let configA = new Config( {}, { workflow: 'test-workflow' } ),
+		configB = new Config();
 
 	it( 'is set to proper value if workflow argv is provided', () => {
 		expect( configA.workflowName ).toBe( 'test-workflow' );
@@ -55,10 +55,10 @@ describe( 'ConfigClass workflowName', () => {
 	} );
 } );
 
-describe( 'ConfigClass workflow', () => {
-	let configA = new ConfigClass( { 'test-workflow': { testProp1: 10, tasks: {} } }, { workflow: 'test-workflow' } ),
-		configB = new ConfigClass( { testProp2: 20, tasks: {} } ),
-		configC = new ConfigClass( { testProp3: 30, invalidTasksPropName: {} } );
+describe( 'Config workflow', () => {
+	let configA = new Config( { 'test-workflow': { testProp1: 10, tasks: {} } }, { workflow: 'test-workflow' } ),
+		configB = new Config( { testProp2: 20, tasks: {} } ),
+		configC = new Config( { testProp3: 30, invalidTasksPropName: {} } );
 
 	it( 'is set to proper object if workflow name anc config is provided', () => {
 		expect( configA.workflow ).toMatchObject( { testProp1: 10, tasks: {} } );
@@ -71,9 +71,9 @@ describe( 'ConfigClass workflow', () => {
 	} );
 } );
 
-describe( 'ConfigClass cwd', () => {
-	let configA = new ConfigClass( { cwd: 'test/dir', tasks: {} } ),
-		configB = new ConfigClass();
+describe( 'Config cwd', () => {
+	let configA = new Config( { cwd: 'test/dir', tasks: {} } ),
+		configB = new Config();
 
 	it( 'is set to proper path if cwd is provided', () => {
 		expect( configA.cwd ).toBe( 'test/dir' );
@@ -83,10 +83,10 @@ describe( 'ConfigClass cwd', () => {
 	} );
 } );
 
-describe( 'ConfigClass schema', () => {
-	let configA = new ConfigClass( { schema: './__tests__/test-schema.json', tasks: {} } ),
-		configB = new ConfigClass( { schema: 'default', tasks: {} }),
-		configC = new ConfigClass( { tasks: {} });
+describe( 'Config schema', () => {
+	let configA = new Config( { schema: './__tests__/test-schema.json', tasks: {} } ),
+		configB = new Config( { schema: 'default', tasks: {} }),
+		configC = new Config( { tasks: {} });
 
 	it( 'returns proper relative schema file', () => {
 		expect( configA.schema ).toHaveProperty( 'task1' );
@@ -109,9 +109,9 @@ describe( 'ConfigClass schema', () => {
 	} );
 } );
 
-describe( 'ConfigClass tasks', () => {
-	let configA = new ConfigClass( { tasks: { taskA: 'valA', taskB: { prop1: 'valB' } } } ),
-		configB = new ConfigClass( { schema: './__tests__/test-schema.json', tasks: {
+describe( 'Config tasks', () => {
+	let configA = new Config( { tasks: { taskA: 'valA', taskB: { prop1: 'valB' } } } ),
+		configB = new Config( { schema: './__tests__/test-schema.json', tasks: {
 			task1: null,
 			task2: {
 				task2prop2: 'overridden value',
