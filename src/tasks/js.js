@@ -32,6 +32,10 @@ if ( tasks.js ) {
 
 			devtool: isProd ? 'source-map' : 'inline-source-map',
 
+			resolveLoader: {
+				modules: [ resolve( __dirname, '../../node_modules' ) ]
+			},
+
 			module: {
 				rules: [
 					{
@@ -52,17 +56,18 @@ if ( tasks.js ) {
 						}, {
 							loader: 'eslint-loader',
 							options: {
-								failOnError: isProd ? true : false,
-								emitWarning: true
+								failOnError: Boolean( isProd ),
+								emitWarning: true,
+								configFile: resolve( __dirname, '../../.eslintrc.js' )
 							}
 						} ]
 					}
 				]
 			},
 
-			plugins: removeEmpty([
+			plugins: removeEmpty( [
 				isProd ? new webpack.optimize.UglifyJsPlugin() : undefined
-			])
+			] )
 		};
 
 		return gulp.src( resolve( cwd, paths.base ) )

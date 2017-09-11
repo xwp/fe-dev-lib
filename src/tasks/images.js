@@ -7,9 +7,9 @@ import TaskHelper from '../classes/TaskHelper';
 
 if ( tasks.images ) {
 	const task = new TaskHelper( {
-		name:          'images',
+		name: 'images',
 		requiredPaths: [ 'src', 'dest' ],
-		config:        tasks.images
+		config: tasks.images
 	} );
 
 	gulp.task( task.name, done => {
