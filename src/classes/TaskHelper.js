@@ -4,7 +4,7 @@ import { join } from 'path';
 import { cwd } from '../utils/config';
 
 export default class TaskHelper {
-	constructor({ name = '', requiredPaths = [], config = null }) {
+	constructor( { name = '', requiredPaths = [], config = null } ) {
 		if ( null === config ) {
 			gutil.log(  gutil.colors.red( `The task '${ name }' template is missing a configuration.` ) );
 			return;
@@ -59,7 +59,7 @@ export default class TaskHelper {
 		return gulp.src( this.src, {
 			base: this.base,
 			cwd
-		});
+		} );
 	}
 
 	end() {

@@ -6,9 +6,9 @@ import TaskHelper from '../classes/TaskHelper';
 
 if ( tasks.copy ) {
 	const task = new TaskHelper( {
-		name:          'copy',
+		name: 'copy',
 		requiredPaths: [ 'src', 'dest' ],
-		config:        tasks.copy
+		config: tasks.copy
 	} );
 
 	gulp.task( task.name, done => {

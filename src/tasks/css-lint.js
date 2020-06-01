@@ -10,9 +10,9 @@ import TaskHelper from '../classes/TaskHelper';
 
 if ( tasks.css ) {
 	const task = new TaskHelper( {
-		name:          'css-lint',
+		name: 'css-lint',
 		requiredPaths: [ 'src' ],
-		config:        tasks.css
+		config: tasks.css
 	} );
 
 	gulp.task( task.name, done => {

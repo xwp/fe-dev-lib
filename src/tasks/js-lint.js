@@ -7,9 +7,9 @@ import TaskHelper from '../classes/TaskHelper';
 
 if ( tasks.js ) {
 	const task = new TaskHelper( {
-		name:          'js-lint',
+		name: 'js-lint',
 		requiredPaths: [ 'src' ],
-		config:        tasks.js
+		config: tasks.js
 	} );
 
 	gulp.task( task.name, done => {

@@ -14,43 +14,12 @@ import TaskHelper from '../classes/TaskHelper';
 
 if ( tasks.css ) {
 	const task = new TaskHelper( {
-		name:          'css',
+		name: 'css',
 		requiredPaths: [ 'src', 'dest' ],
-		config:        tasks.css
+		config: tasks.css
 	} );
 
-	let fn = function( done ) {
-		if ( ! task.isValid() ) {
-			done();
-		}
-
-		return task.start()
-
-			// Caching and incremental building (progeny) in Gulp.
-			.pipe( gulpIf( isDev, cache( task.cacheName ) ) )
-			.pipe( gulpIf( isDev, progeny() ) )
-
-			// Actual SASS compilation.
-			.pipe( gulpIf( isDev, sourcemaps.init() ) )
-			.pipe( sass( {
-				includePaths: undefined !== task.config.includePaths ? task.config.includePaths : [],
-				outputStyle:  isDev ? 'expanded' : 'compressed'
-			} ).on( 'error', sass.logError ) )
-			.pipe( gulpIf( task.config.postcssProcessors, postcss( getProcessors( task.config.postcssProcessors ) ) ) )
-			.pipe( gulpIf( isDev, sourcemaps.write( '' ) ) )
-
-			.pipe( task.end() );
-	};
-
-	fn.displayName = 'css-compile';
-
-	if ( true === task.config.enableLinter ) {
-		gulp.task( 'css', gulp.series( 'css-lint', fn ) );
-	} else {
-		gulp.task( 'css', fn );
-	}
-
-	function getProcessors( settings = {} ) {
+	const getProcessors = ( settings = {} ) => {
 		let processors = [];
 
 		if ( undefined !== settings.cssnext ) {
@@ -67,5 +36,36 @@ if ( tasks.css ) {
 		}
 
 		return processors;
+	};
+
+	let fn = function( done ) {
+		if ( ! task.isValid() ) {
+			done();
+		}
+
+		return task.start()
+
+			// Caching and incremental building (progeny) in Gulp.
+			.pipe( gulpIf( isDev, cache( task.cacheName ) ) )
+			.pipe( gulpIf( isDev, progeny() ) )
+
+			// Actual SASS compilation.
+			.pipe( gulpIf( isDev, sourcemaps.init() ) )
+			.pipe( sass( {
+				includePaths: undefined !== task.config.includePaths ? task.config.includePaths : [],
+				outputStyle: isDev ? 'expanded' : 'compressed'
+			} ).on( 'error', sass.logError ) )
+			.pipe( gulpIf( task.config.postcssProcessors, postcss( getProcessors( task.config.postcssProcessors ) ) ) )
+			.pipe( gulpIf( isDev, sourcemaps.write( '' ) ) )
+
+			.pipe( task.end() );
+	};
+
+	fn.displayName = 'css-compile';
+
+	if ( true === task.config.enableLinter ) {
+		gulp.task( 'css', gulp.series( 'css-lint', fn ) );
+	} else {
+		gulp.task( 'css', fn );
 	}
 }

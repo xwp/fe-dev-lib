@@ -8,7 +8,7 @@
   "main": "dist/gulpfile.js",
   "scripts": {
     "babel": "$(npm bin)/babel",
-    "build": "node ./scripts/build",
+    "build": "$(npm bin)/eslint src && node ./scripts/build",
     "build:commit": "yarn run build && node ./scripts/commit",
     "watch": "babel --watch src --out-dir dist --ignore gulpfile.babel.js",
     "test": "jest"

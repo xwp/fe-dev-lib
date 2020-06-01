@@ -5,9 +5,9 @@ import TaskHelper from '../classes/TaskHelper';
 
 if ( tasks.clean ) {
 	const task = new TaskHelper( {
-		name:          'clean',
+		name: 'clean',
 		requiredPaths: [ 'src' ],
-		config:        tasks.clean
+		config: tasks.clean
 	} );
 
 	gulp.task( task.name, done => {
